@@ -25,12 +25,16 @@ dotenv.load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-6^wq_*gnr$b0(a3(-wnr+wftaefhgu^%70_aw*o8^my=_zp+fh")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "django-insecure-6^wq_*gnr$b0(a3(-wnr+wftaefhgu^%70_aw*o8^my=_zp+fh"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "t")
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", ".vercel.app localhost 127.0.0.1").split()
+ALLOWED_HOSTS = os.environ.get(
+    "ALLOWED_HOSTS", ".vercel.app localhost 127.0.0.1"
+).split()
 
 
 # Application definition
@@ -80,8 +84,7 @@ WSGI_APPLICATION = "comsciweb.wsgi.application"
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}", conn_max_age=600
     )
 }
 
