@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โครงสร้างหลักสูตรและแผนการเรียน - วิทยาการคอมพิวเตอร์</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sage-dark: #1b4332;
+            --sage-primary: #2d6a4f;
+            --sage-medium: #52b788;
+            --sage-soft: #74c69d;
+            --sage-mint: #b7e4c7;
+            --sage-light: #d8f3dc;
+            --sage-bg: #f4fbf7;
+            --card-white: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #5a6a7e;
+            --border-soft: #d8ebd4;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--sage-bg);
+            color: var(--text-main);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* SECTION HEADER */
+        .section-header-custom {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--sage-light);
+            color: var(--sage-dark);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 18px;
+            border-radius: 50px;
+            margin-bottom: 12px;
+            border: 1px solid var(--sage-mint);
+        }
+
+        .section-header-custom h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--sage-dark);
+            margin-bottom: 10px;
+        }
+
+        .section-header-custom p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* TRACK SELECTOR TABS */
+        .track-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 35px;
+        }
+
+        .track-nav-item {
+            background: var(--card-white);
+            border: 2px solid var(--border-soft);
+            border-radius: 16px;
+            padding: 18px 22px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+        }
+
+        .track-nav-item:hover {
+            border-color: var(--sage-soft);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 106, 79, 0.06);
+        }
+
+        .track-nav-item.active {
+            background: linear-gradient(135deg, var(--sage-dark), var(--sage-primary));
+            border-color: var(--sage-dark);
+            box-shadow: 0 10px 24px rgba(45, 106, 79, 0.18);
+        }
+
+        .track-nav-item .nav-icon {
+            font-size: 24px;
+            background: var(--sage-bg);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: all 0.25s;
+        }
+
+        .track-nav-item.active .nav-icon {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .track-nav-item .nav-text h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--sage-dark);
+            margin-bottom: 2px;
+        }
+
+        .track-nav-item .nav-text span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .track-nav-item.active .nav-text h3 {
+            color: #ffffff;
+        }
+
+        .track-nav-item.active .nav-text span {
+            color: var(--sage-mint);
+        }
+
+        /* TRACK DISPLAY PANEL */
+        .track-panel {
+            background: var(--card-white);
+            border-radius: 24px;
+            padding: 36px;
+            border: 1px solid var(--border-soft);
+            box-shadow: 0 6px 30px rgba(45, 106, 79, 0.04);
+            margin-bottom: 60px;
+        }
+
+        .panel-headline {
+            border-bottom: 1px solid var(--border-soft);
+            padding-bottom: 20px;
+            margin-bottom: 28px;
+        }
+
+        .panel-headline h2 {
+            font-size: 22px;
+            color: var(--sage-dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .panel-headline p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* COURSE CARDS */
+        .course-deck {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 22px;
+        }
+
+        .subject-card {
+            background: var(--sage-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--sage-medium);
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(45, 106, 79, 0.08);
+            border-color: var(--sage-soft);
+            background: #ffffff;
+        }
+
+        .subject-card:hover::before {
+            opacity: 1;
+        }
+
+        .subject-head {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .subject-icon {
+            font-size: 22px;
+            background: #ffffff;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-soft);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            flex-shrink: 0;
+        }
+
+        .subject-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--sage-dark);
+            line-height: 1.4;
+        }
+
+        .subject-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .subject-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pill-tag {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .pill-credit {
+            background: #ffffff;
+            color: var(--sage-dark);
+            border: 1px solid var(--border-soft);
+        }
+
+        .pill-lab {
+            background: var(--sage-light);
+            color: var(--sage-dark);
+            border: 1px solid var(--sage-mint);
+        }
+
+        /* SCHEDULE SECTION */
+        .schedule-box {
+            margin-top: 60px;
+        }
+
+        .year-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .year-btn {
+            background: var(--card-white);
+            border: 2px solid var(--border-soft);
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--sage-dark);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .year-btn.active {
+            background: var(--sage-primary);
+            color: #ffffff;
+            border-color: var(--sage-primary);
+            box-shadow: 0 4px 14px rgba(45, 106, 79, 0.2);
+        }
+
+        .semester-cluster {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 24px;
+        }
+
+        .semester-card-modern {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid var(--border-soft);
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.02);
+        }
+
+        .sem-title-bar {
+            background: #f8fcf9;
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--border-soft);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sem-title-bar h3 {
+            font-size: 16px;
+            color: var(--sage-dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sem-title-bar .sem-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--sage-medium);
+        }
+
+        /* Modern Table */
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .modern-table th {
+            background: #ffffff;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 12px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-soft);
+            font-size: 13px;
+        }
+
+        .modern-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f7f2;
+            color: var(--text-main);
+        }
+
+        .modern-table tbody tr:nth-child(even) {
+            background-color: #fafdfb;
+        }
+
+        .modern-table tbody tr:hover {
+            background-color: #f1f9f4;
+        }
+
+        .code-pill {
+            font-weight: 600;
+            color: var(--sage-primary);
+        }
+
+        .cat-badge {
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .cat-major {
+            background: var(--sage-light);
+            color: var(--sage-dark);
+        }
+
+        .cat-ge {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .cat-elective {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .cat-project {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .cat-intern {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .cat-seminar {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .semester-cluster {
+                grid-template-columns: 1fr;
+            }
+            .track-panel {
+                padding: 24px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+
+    <!-- TOP TITLE -->
+    <div class="section-header-custom" id="features">
+        <span class="section-tag">Curriculum Structure</span>
+        <h1>กลุ่มความเชี่ยวชาญ & หลักสูตรการเรียน</h1>
+        <p>พัฒนาทักษะเฉพาะด้านผ่าน 3 กลุ่มวิชาเอกที่ตอบโจทย์ความต้องการของสายงานดิจิทัลยุคใหม่</p>
+    </div>
+
+    <!-- TRACK SELECTION BAR (CARDS) -->
+    <div class="track-nav-grid">
+        <div class="track-nav-item active" onclick="showTrack(event, 'track-core')">
+            <div class="nav-icon">🖥️</div>
+            <div class="nav-text">
+                <h3>วิทยาการคอมพิวเตอร์หลัก</h3>
+                <span>Core Computer Science</span>
+            </div>
+        </div>
+
+        <div class="track-nav-item" onclick="showTrack(event, 'track-se')">
+            <div class="nav-icon">&lt;/&gt;</div>
+            <div class="nav-text">
+                <h3>เทคโนโลยีซอฟต์แวร์</h3>
+                <span>Software Technology</span>
+            </div>
+        </div>
+
+        <div class="track-nav-item" onclick="showTrack(event, 'track-ai')">
+            <div class="nav-icon">🤖</div>
+            <div class="nav-text">
+                <h3>AI & วิทยาการข้อมูล</h3>
+                <span>AI & Data Science</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRACK DETAILS DISPLAY -->
+    <div class="track-panel">
+
+        <!-- 1. CORE CS -->
+        <div id="track-core" class="tab-pane active">
+            <div class="panel-headline">
+                <h2><span>🖥️</span> หมวดวิทยาการคอมพิวเตอร์หลัก (Core CS)</h2>
+                <p>เน้นการปูพื้นฐานทฤษฎีทางคอมพิวเตอร์ โครงสร้างระบบ การเขียนโปรแกรม และความมั่นคงปลอดภัยไซเบอร์ เพื่อสร้างนักคอมพิวเตอร์ที่รอบรู้และพร้อมต่อยอดทุกเทคโนโลยี</p>
+            </div>
+
+            <div class="course-deck">
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">🌐</div>
+                            <div class="subject-title">โครงข่ายคอมพิวเตอร์<br>(Computer Networks)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับการออกแบบ ติดตั้ง และบำรุงรักษาระบบเครือข่ายคอมพิวเตอร์ ทั้งแบบสายและไร้สายเพื่อการสื่อสารในองค์กร</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">🛡️</div>
+                            <div class="subject-title">ความปลอดภัยของข้อมูล<br>(Information Security)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับการป้องกันและควบคุมความปลอดภัยของข้อมูลในระบบคอมพิวเตอร์ การเข้ารหัสลับ และการตรวจจับผู้บุกรุก</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">🔍</div>
+                            <div class="subject-title">ภูมิคุ้มกันและความเสียหายคอมพิวเตอร์<br>(Computer Forensics)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับการตรวจสอบและวิเคราะห์ข้อมูลที่ถูกโจมตีทางไซเบอร์ การสืบค้นพยานหลักฐานดิจิทัล และกฎหมายคอมพิวเตอร์</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">🗄️</div>
+                            <div class="subject-title">การออกแบบระบบฐานข้อมูล<br>(Database Systems)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับการออกแบบ ติดตั้ง และบำรุงรักษาระบบฐานข้อมูล รวมถึงเรียนรู้ SQL ซึ่งเป็นภาษาคิวรีสำหรับฐานข้อมูล</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SOFTWARE TECH -->
+        <div id="track-se" class="tab-pane">
+            <div class="panel-headline">
+                <h2><span>&lt;/&gt;</span> หมวดเทคโนโลยีซอฟต์แวร์ (Software Tech)</h2>
+                <p>เน้นการพัฒนาโปรแกรมประยุกต์ การวิเคราะห์ความต้องการ ระบบสารสนเทศขนาดใหญ่ ตลอดจนการจัดการโครงการซอฟต์แวร์ตามมาตรฐานสากลเพื่อรองรับตลาดแรงงานดิจิทัล</p>
+            </div>
+
+            <div class="course-deck">
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">📦</div>
+                            <div class="subject-title">การสร้างซอฟต์แวร์<br>(Software Engineering)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับกระบวนการสร้างซอฟต์แวร์ การวิเคราะห์และออกแบบระบบ การทดสอบซอฟต์แวร์อย่างเป็นระบบและการบำรุงรักษา</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">💻</div>
+                            <div class="subject-title">การพัฒนาเว็บแอปพลิเคชันสมัยใหม่<br>(Modern Web App)</div>
+                        </div>
+                        <div class="subject-desc">การเรียนรู้เชิงปฏิบัติด้วยการเขียนโปรแกรมฝั่งไคลเอนต์และเซิร์ฟเวอร์โดยใช้เฟรมเวิร์กยอดนิยม เช่น React, Next.js และ Node.js</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">🖼️</div>
+                            <div class="subject-title">การประมวลผลภาพดิจิทัล<br>(Image Processing)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับการประมวลผลภาพดิจิทัลและวิเคราะห์ภาพ เช่น การปรับแต่งภาพ การค้นหาวัตถุ และการสกัดคุณลักษณะจากภาพ</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">🗺️</div>
+                            <div class="subject-title">ระบบสารสนเทศภูมิศาสตร์<br>(GIS Technology)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับการประยุกต์ใช้เทคโนโลยีสารสนเทศในการวิเคราะห์ แสดงผลข้อมูล และแผนที่ทางภูมิศาสตร์ขั้นสูง</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. AI & DATA SCIENCE -->
+        <div id="track-ai" class="tab-pane">
+            <div class="panel-headline">
+                <h2><span>🤖</span> หมวดปัญญาประดิษฐ์และวิทยาการข้อมูล (AI & Data Science)</h2>
+                <p>ยกระดับสู่ความเชี่ยวชาญระดับแนวหน้า ระบบวิเคราะห์บิ๊กดาต้า การพยากรณ์เชิงสถิติ และการสร้างโมเดล Machine/Deep Learning สำหรับนวัตกรรมแห่งอนาคต</p>
+            </div>
+
+            <div class="course-deck">
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">🧠</div>
+                            <div class="subject-title">ภูมิปัญญาประดิษฐ์<br>(Artificial Intelligence)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับการพัฒนาโปรแกรมและเทคโนโลยีที่ใช้ในการจำลองความเป็นมนุษย์ของระบบคอมพิวเตอร์ เช่น การประมวลผลภาษาธรรมชาติ</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">📊</div>
+                            <div class="subject-title">วิทยาการข้อมูล<br>(Data Science)</div>
+                        </div>
+                        <div class="subject-desc">เรียนรู้เกี่ยวกับการทำงานกับข้อมูลขนาดใหญ่ การวิเคราะห์แสดงผลข้อมูลเชิงลึก และการประยุกต์ใช้เทคโนโลยีในเชิงธุรกิจ</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">⚙️</div>
+                            <div class="subject-title">การเรียนรู้ของเครื่อง<br>(Machine Learning)</div>
+                        </div>
+                        <div class="subject-desc">การสร้างและประเมินประสิทธิภาพของโมเดลการเรียนรู้ เช่น Supervised และ Unsupervised Learning เพื่อการพยากรณ์ข้อมูล</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+
+                <div class="subject-card">
+                    <div>
+                        <div class="subject-head">
+                            <div class="subject-icon">⌨️</div>
+                            <div class="subject-title">การเขียนโปรแกรมสำหรับ Data Science</div>
+                        </div>
+                        <div class="subject-desc">ปฏิบัติการเขียนโค้ดด้วยภาษา Python และ R เพื่อการสกัด ดึงข้อมูล จัดการโครงสร้างข้อมูล และทำ Data Cleansing ขั้นสูง</div>
+                    </div>
+                    <div class="subject-tags">
+                        <span class="pill-tag pill-credit">3 หน่วยกิต</span>
+                        <span class="pill-tag pill-lab">🔬 มีห้องแล็บปฏิบัติการ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCHEDULE SECTION -->
+    <div class="schedule-box" id="schedule">
+        <div class="section-header-custom">
+            <span class="section-tag">Study Schedule</span>
+            <h1>แผนการศึกษาและตารางวิชาเรียน</h1>
+            <p>โครงสร้างแผนการเรียนรายภาคการศึกษาตลอดหลักสูตร 4 ปี (รวมไม่น้อยกว่า 133 หน่วยกิต)</p>
+        </div>
+
+        <div class="year-toggle">
+            <button class="year-btn active" onclick="showYearGroup(event, 'group-1-2')">ชั้นปีที่ 1 และ 2</button>
+            <button class="year-btn" onclick="showYearGroup(event, 'group-3-4')">ชั้นปีที่ 3 และ 4</button>
+        </div>
+
+        <!-- YEARS 1 & 2 -->
+        <div id="group-1-2" class="tab-pane active">
+            <div class="semester-cluster">
+                <!-- Y1 S1 -->
+                <div class="semester-card-modern">
+                    <div class="sem-title-bar">
+                        <h3><span class="sem-dot"></span> ชั้นปีที่ 1 (ภาคเรียนที่ 1)</h3>
+                    </div>
+                    <table class="modern-table">
+                        <thead><tr><th>รหัส</th><th>ชื่อรายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                        <tbody>
+                            <tr><td class="code-pill">CS101</td><td>พื้นฐานวิทยาการคอมพิวเตอร์</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS102</td><td>การเขียนโปรแกรมเบื้องต้น (Python)</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">MA111</td><td>คณิตศาสตร์ดิสครีต</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">GE101</td><td>ภาษาอังกฤษเพื่อการสื่อสาร</td><td><span class="cat-badge cat-ge">วิชาศึกษาทั่วไป</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Y1 S2 -->
+                <div class="semester-card-modern">
+                    <div class="sem-title-bar">
+                        <h3><span class="sem-dot"></span> ชั้นปีที่ 1 (ภาคเรียนที่ 2)</h3>
+                    </div>
+                    <table class="modern-table">
+                        <thead><tr><th>รหัส</th><th>ชื่อรายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                        <tbody>
+                            <tr><td class="code-pill">CS103</td><td>การเขียนโปรแกรมเชิงวัตถุ (Java)</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS104</td><td>โครงสร้างข้อมูลและอัลกอริทึม</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">MA112</td><td>สถิติและคณิตศาสตร์สัญลักษณ์</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">GE102</td><td>ทักษะชีวิตและความเป็นพลเมือง</td><td><span class="cat-badge cat-ge">วิชาศึกษาทั่วไป</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Y2 S1 -->
+                <div class="semester-card-modern">
+                    <div class="sem-title-bar">
+                        <h3><span class="sem-dot"></span> ชั้นปีที่ 2 (ภาคเรียนที่ 1)</h3>
+                    </div>
+                    <table class="modern-table">
+                        <thead><tr><th>รหัส</th><th>ชื่อรายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                        <tbody>
+                            <tr><td class="code-pill">CS201</td><td>สถาปัตยกรรมคอมพิวเตอร์และ OS</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS202</td><td>ระบบฐานข้อมูลและการออกแบบ</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS203</td><td>วิศวกรรมซอฟต์แวร์เบื้องต้น</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS204</td><td>โครงข่ายคอมพิวเตอร์และการสื่อสาร</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Y2 S2 -->
+                <div class="semester-card-modern">
+                    <div class="sem-title-bar">
+                        <h3><span class="sem-dot"></span> ชั้นปีที่ 2 (ภาคเรียนที่ 2)</h3>
+                    </div>
+                    <table class="modern-table">
+                        <thead><tr><th>รหัส</th><th>ชื่อรายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                        <tbody>
+                            <tr><td class="code-pill">CS205</td><td>การพัฒนาเว็บแอปพลิเคชัน</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS206</td><td>การวิเคราะห์และออกแบบระบบเชิงวัตถุ</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS207</td><td>ความมั่นคงปลอดภัยสารสนเทศพื้นฐาน</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS208</td><td>คณิตศาสตร์และสถิติสำหรับ AI</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- YEARS 3 & 4 -->
+        <div id="group-3-4" class="tab-pane">
+            <div class="semester-cluster">
+                <!-- Y3 S1 -->
+                <div class="semester-card-modern">
+                    <div class="sem-title-bar">
+                        <h3><span class="sem-dot"></span> ชั้นปีที่ 3 (ภาคเรียนที่ 1)</h3>
+                    </div>
+                    <table class="modern-table">
+                        <thead><tr><th>รหัส</th><th>ชื่อรายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                        <tbody>
+                            <tr><td class="code-pill">CS301</td><td>AI เชิงทฤษฎีและการประยุกต์</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS302</td><td>วิทยาการข้อมูลและวิเคราะห์ Big Data</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS303</td><td>ภูมิสารสนเทศศาสตร์เบื้องต้น</td><td><span class="cat-badge cat-major">วิชาเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS3XX</td><td>วิชาเลือกเฉพาะทางสาขาวิชา (1)</td><td><span class="cat-badge cat-elective">วิชาเลือกเฉพาะสาขา</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Y3 S2 -->
+                <div class="semester-card-modern">
+                    <div class="sem-title-bar">
+                        <h3><span class="sem-dot"></span> ชั้นปีที่ 3 (ภาคเรียนที่ 2)</h3>
+                    </div>
+                    <table class="modern-table">
+                        <thead><tr><th>รหัส</th><th>ชื่อรายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                        <tbody>
+                            <tr><td class="code-pill">CS304</td><td>การเตรียมพร้อมฝึกประสบการณ์วิชาชีพ</td><td><span class="cat-badge cat-project">วิชาฝึกทักษะ</span></td></tr>
+                            <tr><td class="code-pill">CS305</td><td>โครงงานวิทยาการคอมพิวเตอร์ 1</td><td><span class="cat-badge cat-project">วิชาทำโครงงาน</span></td></tr>
+                            <tr><td class="code-pill">CS3XX</td><td>วิชาเลือกเฉพาะทางสาขาวิชา (2)</td><td><span class="cat-badge cat-elective">วิชาเลือกเฉพาะสาขา</span></td></tr>
+                            <tr><td class="code-pill">CS3XX</td><td>วิชาเลือกเสรีองค์กรไอที</td><td><span class="cat-badge cat-ge">วิชาเลือกเสรี</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Y4 S1 -->
+                <div class="semester-card-modern">
+                    <div class="sem-title-bar">
+                        <h3><span class="sem-dot"></span> ชั้นปีที่ 4 (ภาคเรียนที่ 1)</h3>
+                    </div>
+                    <table class="modern-table">
+                        <thead><tr><th>รหัส</th><th>ชื่อรายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td class="code-pill">CS401</td>
+                                <td>สหกิจศึกษาทางวิทยาการคอมพิวเตอร์ / ฝึกงาน</td>
+                                <td><span class="cat-badge cat-intern">ปฏิบัติงานในสถานประกอบการ</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Y4 S2 -->
+                <div class="semester-card-modern">
+                    <div class="sem-title-bar">
+                        <h3><span class="sem-dot"></span> ชั้นปีที่ 4 (ภาคเรียนที่ 2)</h3>
+                    </div>
+                    <table class="modern-table">
+                        <thead><tr><th>รหัส</th><th>ชื่อรายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                        <tbody>
+                            <tr><td class="code-pill">CS402</td><td>สัมมนาและเทคโนโลยีที่เกิดขึ้นใหม่</td><td><span class="cat-badge cat-seminar">สัมมนาทัศนคติ</span></td></tr>
+                            <tr><td class="code-pill">CS403</td><td>โครงงานวิทยาการคอมพิวเตอร์ 2 (จบการศึกษา)</td><td><span class="cat-badge cat-project">วิชาทำโครงงาน</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function showTrack(evt, trackId) {
+        document.querySelectorAll('.tab-pane[id^="track-"]').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.track-nav-item').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(trackId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    function showYearGroup(evt, groupId) {
+        document.getElementById('group-1-2').classList.remove('active');
+        document.getElementById('group-3-4').classList.remove('active');
+        
+        document.querySelectorAll('.year-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(groupId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
