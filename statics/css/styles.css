@@ -12848,53 +12848,92 @@ body {
   border-radius: 0.25rem !important;
 }
 
+/* ==========================================================================
+   Sage Green Premium Design & Liquid Navigation Overrides
+   ========================================================================== */
+
+:root {
+  --sage-dark: #1b4332;
+  --sage-primary: #2d6a4f;
+  --sage-medium: #52b788;
+  --sage-soft: #74c69d;
+  --sage-mint: #b7e4c7;
+  --sage-light: #d8f3dc;
+  --sage-bg: #f4fbf7;
+  --card-white: #ffffff;
+  --text-main: #2d3748;
+  --text-muted: #64748b;
+  --border-soft: #d8ebd4;
+  --footer-dark: #111d24;
+}
+
+body {
+  background-color: var(--sage-bg) !important;
+  color: var(--text-main);
+  font-family: 'Inter', 'Outfit', 'Sarabun', sans-serif;
+}
+
 /* จัด Layout ส่วน Header */
-/* จัด Layout ส่วน Header ให้รองรับจอหลายขนาด */
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  /* สั่งให้ปัดตกบรรทัดเมื่อหน้าจอแคบ ป้องกันการทับกัน */
   gap: 15px;
-  /* ระยะห่างเวลาเมนูปัดตกลงมาอยู่ด้านล่าง */
-  padding: 15px 30px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #eaeaea;
+  padding: 25px 30px 10px 30px;
+  background-color: var(--footer-dark);
+  border-bottom: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: visible;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+body.sb-nav-fixed {
+  padding-top: 105px !important;
 }
 
 /* รองรับจอขนาดเล็ก (แท็บเล็ต/มือถือ) */
 @media (max-width: 850px) {
   .navbar-container {
     justify-content: center;
-    /* ดันให้อยู่ตรงกลางเวลาจอเล็ก */
+    padding-top: 20px;
+    padding-bottom: 5px;
   }
 
   .liquid-nav {
     transform: scale(0.9);
-    /* ย่อขนาดเมนูลง 10% ไม่ให้ล้นจอ */
+    margin-top: 10px;
   }
 }
 
 @media (max-width: 500px) {
   .liquid-nav {
-    transform: scale(0.7);
-    /* ย่อขนาดเมนูลงอีกสำหรับมือถือแนวตั้ง */
+    transform: scale(0.75);
+    margin-top: 10px;
   }
 }
 
 .brand-title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.6rem;
+  font-weight: 800;
   text-decoration: none;
-  color: #1e1f26;
+  color: var(--sage-light);
+  letter-spacing: 0.05em;
+  transition: 0.3s;
 }
 
-/* กรอบเมนู Liquid สีดำ */
+.brand-title:hover {
+  color: var(--sage-soft);
+}
+
+/* กรอบเมนู Liquid */
 .liquid-nav ul {
   display: flex;
-  width: 510px;
-  /* ขยายกว้างขึ้นจาก 420px เป็น 510px (85px * 6 เมนู) */
+  width: 510px; /* 85px * 6 menu items */
   margin: 0;
   padding: 0;
   position: relative;
@@ -12904,15 +12943,41 @@ body {
   position: relative;
   list-style: none;
   width: 85px;
-  /* ขยายช่องแต่ละปุ่มเป็น 85px ให้ห่างกันมากขึ้น */
   height: 70px;
   z-index: 1;
 }
 
-/* ทำให้ข้อความใหญ่ขึ้นนิดนึงได้เมื่อมีที่กว้างขึ้น */
+.liquid-nav ul li.list a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.liquid-nav ul li.list a .icon {
+  position: relative;
+  display: block;
+  line-height: 75px;
+  font-size: 1.5rem;
+  text-align: center;
+  transition: 0.5s;
+  color: var(--sage-mint);
+}
+
+.liquid-nav ul li.list.active a .icon {
+  transform: translateY(-32px);
+  color: var(--footer-dark); /* Dark color inside the white circle indicator */
+}
+
+/* ทำให้ข้อความ */
 .liquid-nav ul li a .text {
   position: absolute;
-  color: #ffffff;
+  color: var(--sage-light);
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -12920,17 +12985,22 @@ body {
   transform: translateY(20px);
 }
 
+.liquid-nav ul li.list.active a .text {
+  opacity: 1;
+  transform: translateY(12px);
+  color: var(--sage-mint);
+}
+
 /* ----- การสร้างวงกลมป๊อปอัพ ----- */
 .indicator {
   position: absolute;
   top: -35px;
-  left: 7.5px;
-  /* จัดวงกลม 70px ให้อยู่กึ่งกลางช่อง 85px พอดี */
+  left: 7.5px; /* จัดวงกลม 70px ให้อยู่กึ่งกลางช่อง 85px */
   width: 70px;
   height: 70px;
-  background: #ffffff;
+  background: var(--card-white);
   border-radius: 50%;
-  border: 6px solid #ffffff;
+  border: 6px solid var(--footer-dark);
   transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
@@ -12947,17 +13017,16 @@ body {
 .indicator::before {
   left: -28px;
   border-top-right-radius: 22px;
-  box-shadow: 1px -10px 0 0 #ffffff;
+  box-shadow: 1px -10px 0 0 var(--footer-dark);
 }
 
 .indicator::after {
   right: -28px;
   border-top-left-radius: 22px;
-  box-shadow: -1px -10px 0 0 #ffffff;
+  box-shadow: -1px -10px 0 0 var(--footer-dark);
 }
 
-
-/* ----- ปรับระยะการเลื่อนวงกลมให้ตรงกับช่อง 85px ----- */
+/* ----- ปรับระยะการเลื่อนวงกลม ----- */
 .liquid-nav ul li:nth-child(1).active~.indicator {
   transform: translateX(calc(85px * 0));
 }
@@ -12980,4 +13049,388 @@ body {
 
 .liquid-nav ul li:nth-child(6).active~.indicator {
   transform: translateX(calc(85px * 5));
+}
+
+/* ==========================================================================
+   Homepage Cards & Grid System (Sage Green Aesthetic)
+   ========================================================================== */
+
+.hero-section {
+  background: linear-gradient(135deg, var(--sage-dark) 0%, var(--sage-primary) 100%);
+  color: white;
+  padding: 80px 40px;
+  border-radius: 24px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(45, 106, 79, 0.2);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(116,198,157,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  letter-spacing: -0.02em;
+}
+
+.hero-section p.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--sage-mint);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.hero-date {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--sage-dark);
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--sage-medium);
+  margin: 10px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* Grid Cards Layout */
+.cs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.cs-card {
+  background-color: var(--card-white);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 35px 30px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.cs-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--sage-soft), var(--sage-primary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cs-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(45, 106, 79, 0.08);
+  border-color: var(--sage-soft);
+}
+
+.cs-card:hover::before {
+  opacity: 1;
+}
+
+.cs-card-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background-color: var(--sage-light);
+  color: var(--sage-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+}
+
+.cs-card:hover .cs-card-icon {
+  background-color: var(--sage-primary);
+  color: var(--card-white);
+}
+
+.cs-card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--sage-dark);
+  margin-bottom: 12px;
+}
+
+.cs-card-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.cs-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--sage-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.cs-card-btn i {
+  transition: transform 0.3s ease;
+}
+
+.cs-card:hover .cs-card-btn {
+  color: var(--sage-dark);
+}
+
+.cs-card:hover .cs-card-btn i {
+  transform: translateX(5px);
+}
+
+/* ==========================================================================
+   Premium Popup Modals (Backdrop Filter blur & animations)
+   ========================================================================== */
+
+.cs-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 29, 36, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.cs-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cs-modal {
+  background-color: var(--card-white);
+  border: 1px solid var(--border-soft);
+  border-radius: 24px;
+  width: 90%;
+  max-width: 650px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(27, 67, 50, 0.25);
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-modal-overlay.open .cs-modal {
+  transform: scale(1);
+}
+
+.cs-modal-header {
+  padding: 25px 30px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--sage-light);
+  border-top-left-radius: 23px;
+  border-top-right-radius: 23px;
+}
+
+.cs-modal-header h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--sage-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cs-modal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--sage-dark);
+  font-size: 1.25rem;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.cs-modal-close-btn:hover {
+  background-color: rgba(27, 67, 50, 0.1);
+  color: var(--sage-dark);
+}
+
+.cs-modal-body {
+  padding: 30px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-main);
+  overflow-y: auto;
+}
+
+.cs-modal-body h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--sage-primary);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.cs-modal-body ul {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.cs-modal-body ul li {
+  margin-bottom: 8px;
+}
+
+.cs-modal-footer {
+  padding: 20px 30px;
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--sage-bg);
+  border-bottom-left-radius: 23px;
+  border-bottom-right-radius: 23px;
+}
+
+.cs-modal-footer .btn-close-modal {
+  background-color: var(--sage-primary);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cs-modal-footer .btn-close-modal:hover {
+  background-color: var(--sage-dark);
+}
+
+/* ==========================================================================
+   Premium Dark Footer styling
+   ========================================================================== */
+.cs-footer {
+  background-color: var(--footer-dark) !important;
+  color: var(--sage-mint) !important;
+  border-top: 1px solid rgba(116, 198, 157, 0.1);
+  padding: 30px 0;
+}
+
+.cs-footer .text-muted {
+  color: var(--sage-mint) !important;
+  opacity: 0.7;
+}
+
+.cs-footer a {
+  color: var(--sage-light) !important;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.cs-footer a:hover {
+  color: var(--sage-soft) !important;
+}
+
+/* ==========================================================================
+   One-Page Scroll Behavior & Section Styling
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 110px; /* Offset to prevent fixed navbar from obscuring section titles */
+}
+
+.cs-section {
+  padding: 60px 40px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  background-color: var(--card-white);
+  border: 1px solid var(--border-soft);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(45, 106, 79, 0.02);
+  transition: all 0.3s ease;
+}
+
+.cs-section:hover {
+  box-shadow: 0 15px 45px rgba(45, 106, 79, 0.06);
+}
+
+.cs-section-header {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--sage-dark);
+  margin-bottom: 25px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cs-section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 45px;
+  height: 3.5px;
+  background-color: var(--sage-medium);
+  border-radius: 2px;
+}
+
+.cs-section-content {
+  color: var(--text-main);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-top: 15px;
 }

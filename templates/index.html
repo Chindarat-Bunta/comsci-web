@@ -1,8 +1,145 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="mt-4">{{title}}</h1>
-    <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">{{ title }}, {{date}}</li>
-    </ol>
+<!-- Section: Home & Menu Grid -->
+<section id="home">
+    <div class="hero-section">
+        <h1>{{ title }}</h1>
+        <p class="hero-subtitle">ยินดีต้อนรับสู่หน้าแรกของระบบจัดการข้อมูลหลักสูตรและสาขาวิชา วิทยาการคอมพิวเตอร์</p>
+        <div class="hero-date">
+            <i class="far fa-calendar-alt me-2"></i>ข้อมูล ณ วันที่: {{ date }}
+        </div>
+    </div>
+
+    <h2 class="section-title">ข้อมูลแนะนำสาขาวิชา</h2>
+
+    <div class="cs-grid">
+        <!-- Card 1: Curriculum -->
+        <div class="cs-card" data-modal-target="curriculum-modal">
+            <div class="cs-card-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <h3 class="cs-card-title">หลักสูตรวิทยาศาสตรบัณฑิต</h3>
+            <p class="cs-card-desc">โครงสร้างวิชาเรียนและรายละเอียดหลักสูตรสาขาวิชาวิทยาการคอมพิวเตอร์</p>
+            <span class="cs-card-btn">คลิกดูข้อมูลเพิ่มเติม <i class="fas fa-arrow-right"></i></span>
+        </div>
+
+        <!-- Card 2: Study Plan -->
+        <div class="cs-card" data-modal-target="study-plan-modal">
+            <div class="cs-card-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h3 class="cs-card-title">แผนการเรียน 4 ปี</h3>
+            <p class="cs-card-desc">แนวทางการวางแผนวิชาเรียนภาคบังคับและวิชาเลือกในแต่ละภาคการศึกษา</p>
+            <span class="cs-card-btn">คลิกดูข้อมูลเพิ่มเติม <i class="fas fa-arrow-right"></i></span>
+        </div>
+
+        <!-- Card 3: Faculty -->
+        <div class="cs-card" data-modal-target="faculty-modal">
+            <div class="cs-card-icon">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <h3 class="cs-card-title">คณาจารย์ผู้ทรงคุณวุฒิ</h3>
+            <p class="cs-card-desc">รายชื่อคณาจารย์ ความเชี่ยวชาญด้านงานวิจัย และช่องทางการติดต่ออาจารย์</p>
+            <span class="cs-card-btn">คลิกดูข้อมูลเพิ่มเติม <i class="fas fa-arrow-right"></i></span>
+        </div>
+
+        <!-- Card 4: About Link (Scrolls to About) -->
+        <div class="cs-card" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+            <div class="cs-card-icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <h3 class="cs-card-title">เกี่ยวกับสาขาวิชา</h3>
+            <p class="cs-card-desc">ประวัติความเป็นมา วิสัยทัศน์ พันธกิจ และสิ่งอำนวยความสะดวกในการเรียนรู้</p>
+            <span class="cs-card-btn">เลื่อนไปดูข้อมูล <i class="fas fa-arrow-down"></i></span>
+        </div>
+
+        <!-- Card 5: Contact Link (Scrolls to Contact) -->
+        <div class="cs-card" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+            <div class="cs-card-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h3 class="cs-card-title">ช่องทางการติดต่อ</h3>
+            <p class="cs-card-desc">ที่ตั้งอาคารสำนักงาน หมายเลขโทรศัพท์ติดต่อ อีเมล และช่องทางโซเชียลมีเดีย</p>
+            <span class="cs-card-btn">เลื่อนไปดูข้อมูล <i class="fas fa-arrow-down"></i></span>
+        </div>
+    </div>
+</section>
+
+<!-- Section: About Us -->
+<section id="about" class="cs-section">
+    <h2 class="cs-section-header">
+        <i class="fas fa-info-circle"></i> เกี่ยวกับสาขาวิชา
+    </h2>
+    <div class="cs-section-content">
+        <p>ยินดีต้อนรับสู่สาขาวิชาวิทยาการคอมพิวเตอร์ มุ่งเน้นการจัดการเรียนการสอนและวิจัยเพื่อผลิตบัณฑิตที่มีความสามารถในการสร้างสรรค์นวัตกรรมดิจิทัล พัฒนาซอฟต์แวร์ และระบบเทคโนโลยีสารสนเทศที่มีประสิทธิภาพ</p>
+        <p>ขณะนี้ข้อมูลความเป็นมา วิสัยทัศน์ พันธกิจ และข้อมูลห้องปฏิบัติการอย่างเป็นทางการอยู่ระหว่างการตรวจสอบความถูกต้องและจัดเรียงเนื้อหาเพื่อเตรียมอัปเดตลงในส่วนนี้ครับ</p>
+    </div>
+</section>
+
+<!-- Section: Contact Us -->
+<section id="contact" class="cs-section">
+    <h2 class="cs-section-header">
+        <i class="fas fa-envelope"></i> ติดต่อสาขาวิชา
+    </h2>
+    <div class="cs-section-content">
+        <p>คุณสามารถติดต่อสาขาวิชาวิทยาการคอมพิวเตอร์ได้ ณ สำนักงานประจำสาขา คณะวิทยาศาสตร์และเทคโนโลยี ในเวลาทำการ</p>
+        <p>สำหรับข้อมูลติดต่อโดยละเอียด อาทิ เบอร์โทรศัพท์ภายในสายตรง อีเมล และแผนที่ตั้งอาคาร จะได้รับการอัปเดตอย่างเป็นทางการลงในหน้านี้เร็วๆ นี้หลังจากตรวจสอบความถูกต้องเสร็จสิ้นครับ</p>
+    </div>
+</section>
+
+<!-- ==========================================
+     POPUP MODALS (MODAL OVERLAYS)
+     ========================================== -->
+
+<!-- Modal 1: Curriculum -->
+<div class="cs-modal-overlay" id="curriculum-modal">
+    <div class="cs-modal">
+        <div class="cs-modal-header">
+            <h3><i class="fas fa-book"></i> หลักสูตรวิทยาศาสตรบัณฑิต</h3>
+            <button class="cs-modal-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cs-modal-body">
+            <p><strong>รายละเอียดหมวดวิชาและโครงสร้างหลักสูตร</strong></p>
+            <p>ขณะนี้ข้อมูลโครงสร้างหลักสูตรและรายวิชาต่างๆ อยู่ระหว่างการจัดเตรียมข้อมูลอย่างเป็นทางการจากสาขาวิชา ข้อมูลจะพร้อมอัปเดตแสดงในส่วนนี้ในลำดับถัดไปหลังจากได้รับอนุมัติโครงสร้างวิชาเรียบร้อยแล้ว</p>
+        </div>
+        <div class="cs-modal-footer">
+            <button class="btn-close-modal">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2: Study Plan -->
+<div class="cs-modal-overlay" id="study-plan-modal">
+    <div class="cs-modal">
+        <div class="cs-modal-header">
+            <h3><i class="fas fa-graduation-cap"></i> แผนการเรียน 4 ปี</h3>
+            <button class="cs-modal-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cs-modal-body">
+            <p><strong>รายละเอียดแผนแนะนำวิชาเรียนรายภาคการศึกษา</strong></p>
+            <p>ขณะนี้รายละเอียดแผนแนะนำวิชาเรียนรายเทอมตลอดหลักสูตร 4 ปี อยู่ระหว่างการปรับปรุงและจัดระเบียบตามเกณฑ์หลักสูตรใหม่ ข้อมูลจะพร้อมเผยแพร่และจัดแสดงในป๊อปอัปนี้เร็วๆ นี้</p>
+        </div>
+        <div class="cs-modal-footer">
+            <button class="btn-close-modal">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 3: Faculty -->
+<div class="cs-modal-overlay" id="faculty-modal">
+    <div class="cs-modal">
+        <div class="cs-modal-header">
+            <h3><i class="fas fa-user-tie"></i> คณาจารย์ประจำสาขาวิชา</h3>
+            <button class="cs-modal-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cs-modal-body">
+            <p><strong>ข้อมูลรายชื่อคณาจารย์และช่องทางการติดต่อ</strong></p>
+            <p>รายละเอียดรายชื่อคณาจารย์ผู้ทรงคุณวุฒิ ความเชี่ยวชาญ และประวัติต่างๆ กำลังอยู่ระหว่างการตรวจสอบความถูกต้องก่อนนำเสนอ ข้อมูลส่วนนี้จะได้รับการเพิ่มเติมลงในป๊อปอัปนี้ในภายหลัง</p>
+        </div>
+        <div class="cs-modal-footer">
+            <button class="btn-close-modal">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+</div>
 {% endblock %}

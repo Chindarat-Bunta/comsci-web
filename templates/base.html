@@ -9,7 +9,7 @@
         <meta name="author" content="" />
         <title>Dashboard - SB Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-        <link href="{% static 'css/styles.css' %}?v=1" rel="stylesheet" />
+        <link href="{% static 'css/styles.css' %}?v=3" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -22,37 +22,37 @@
         <ul>
             <!-- ใส่ class "active" ในหน้าปัจจุบัน -->
             <li class="list active">
-                <a href="{% url 'home' %}">
+                <a href="#home">
                     <span class="icon"><i class="fas fa-home"></i></span>
                     <span class="text">หน้าหลัก</span>
                 </a>
             </li>
             <li class="list">
-                <a href="{% url 'about' %}">
+                <a href="#about">
                     <span class="icon"><i class="fas fa-info-circle"></i></span>
                     <span class="text">เกี่ยวกับเรา</span>
                 </a>
             </li>
             <li class="list">
-                <a href="#">
+                <a href="#curriculum">
                     <span class="icon"><i class="fas fa-book"></i></span>
                     <span class="text">หลักสูตร</span>
                 </a>
             </li>
             <li class="list">
-                <a href="#">
+                <a href="#study-plan">
                     <span class="icon"><i class="fas fa-graduation-cap"></i></span>
                     <span class="text">แผนการเรียน</span>
                 </a>
             </li>
             <li class="list">
-                <a href="#">
+                <a href="#faculty">
                     <span class="icon"><i class="fas fa-user-tie"></i></span>
                     <span class="text">คณาจารย์</span>
                 </a>
             </li>
             <li class="list">
-                <a href="{% url 'contact' %}">
+                <a href="#contact">
                     <span class="icon"><i class="fas fa-envelope"></i></span>
                     <span class="text">ติดต่อเรา</span>
                 </a>
@@ -71,10 +71,10 @@
                 {% endblock %}
                 </div>
             </main>
-            <footer class="py-4 bg-light mt-auto">
+            <footer class="py-4 mt-auto cs-footer">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                        <div class="text-muted">Copyright &copy; วิทยาการคอมพิวเตอร์ 2026</div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;

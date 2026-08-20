@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -13,7 +13,7 @@ def index(request):
     return render(request, "index.html", context)
 
 def about(request):
-    return render(request, "about.html")
+    return redirect("/#about")
 
 def contact(request):
-    return render(request, "contact.html")
+    return redirect("/#contact")
