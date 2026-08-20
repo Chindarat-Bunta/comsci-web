@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>คณาจารย์ประจำสาขาวิชา - วิทยาการคอมพิวเตอร์</title>
+    <title>คณาจารย์ประจำหลักสูตร - วิทยาการคอมพิวเตอร์</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,15 +19,33 @@
             --text-main: #2d3748;
             --text-muted: #64748b;
             --border-soft: #d8ebd4;
-            --footer-dark: #111d24;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
-        body { background-color: var(--sage-bg); color: var(--text-main); padding-top: 40px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 60px 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--sage-bg);
+            color: var(--text-main);
+            padding-top: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px 20px;
+        }
 
         /* HEADER */
-        .section-header { text-align: center; margin-bottom: 45px; }
+        .section-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
         .section-tag {
             display: inline-block;
             background: var(--sage-light);
@@ -38,10 +57,22 @@
             margin-bottom: 12px;
             border: 1px solid var(--sage-soft);
         }
-        .section-header h1 { font-size: 32px; font-weight: 700; color: var(--sage-dark); margin-bottom: 10px; }
-        .section-header p { color: var(--text-muted); font-size: 16px; max-width: 650px; margin: 0 auto; }
 
-        /* DIRECTORY GRID (MODERN EXECUTIVE STYLE) */
+        .section-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--sage-dark);
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* FACULTY GRID */
         .faculty-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -157,8 +188,10 @@
         /* MODAL POPUP */
         .modal-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(15, 23, 42, 0.6);
             display: none;
             align-items: center;
@@ -167,7 +200,9 @@
             padding: 20px;
         }
 
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active {
+            display: flex;
+        }
 
         .modal-card {
             background: #ffffff;
@@ -194,8 +229,20 @@
             justify-content: space-between;
         }
 
-        .modal-user-info { display: flex; align-items: center; gap: 16px; }
-        .modal-user-info img { width: 60px; height: 60px; border-radius: 14px; border: 2px solid #ffffff; object-fit: cover; }
+        .modal-user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .modal-user-info img {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            border: 2px solid #ffffff;
+            object-fit: cover;
+        }
+
         .modal-close-btn {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -234,8 +281,10 @@
         .edu-item::before {
             content: '';
             position: absolute;
-            left: -5px; top: 5px;
-            width: 8px; height: 8px;
+            left: -5px;
+            top: 5px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: var(--sage-primary);
         }
@@ -250,23 +299,19 @@
         .teach-name { font-size: 12.5px; font-weight: 600; color: #1e293b; line-height: 1.3; margin: 2px 0; }
         .teach-credit { font-size: 11px; color: #94a3b8; }
 
-        .paper-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; font-size: 13px; line-height: 1.5; color: #334155; }
-
-        /* FOOTER */
-        .main-footer { background-color: var(--footer-dark); color: #94a3b8; padding: 60px 20px 30px 20px; font-size: 14px; }
-        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.2fr 1.5fr; gap: 35px; margin-bottom: 40px; }
-        .footer-col h4 { color: #ffffff; font-size: 16px; margin-bottom: 16px; font-weight: 600; }
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: color 0.2s; }
-        .footer-col ul li a:hover { color: var(--sage-soft); }
-        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 20px; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+        .paper-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #334155;
+        }
 
         @media (max-width: 768px) {
             .modal-body { grid-template-columns: 1fr; }
             .teach-grid { grid-template-columns: 1fr; }
-            .footer-content { grid-template-columns: 1fr; }
-            .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
         }
     </style>
 </head>
@@ -284,7 +329,7 @@
         <div class="faculty-card">
             <div class="profile-row">
                 <div class="avatar-box">
-                    <img src="https://via.placeholder.com/150" alt="ดร.เจษฎา โพนแก้ว" class="avatar-img">
+                    <img src="{% static 'images/teacher1.jpg.webp' %}" alt="ดร.เจษฎา โพนแก้ว" class="avatar-img">
                     <span class="role-pill-float">CS</span>
                 </div>
                 <div class="faculty-meta">
@@ -303,7 +348,7 @@
         <div class="faculty-card">
             <div class="profile-row">
                 <div class="avatar-box">
-                    <img src="https://via.placeholder.com/150" alt="ดร.เจษฎา ชาตรี" class="avatar-img">
+                    <img src="{% static 'images/teacher2.jpg.webp' %}" alt="ดร.เจษฎา ชาตรี" class="avatar-img">
                     <span class="role-pill-float">CSE</span>
                 </div>
                 <div class="faculty-meta">
@@ -322,7 +367,7 @@
         <div class="faculty-card">
             <div class="profile-row">
                 <div class="avatar-box">
-                    <img src="https://via.placeholder.com/150" alt="ดร.กริชบดินทร์ ผิวหอม" class="avatar-img">
+                    <img src="{% static 'images/teacher3.jpg.webp' %}" alt="ดร.กริชบดินทร์ ผิวหอม" class="avatar-img">
                     <span class="role-pill-float">CPE</span>
                 </div>
                 <div class="faculty-meta">
@@ -341,7 +386,7 @@
         <div class="faculty-card">
             <div class="profile-row">
                 <div class="avatar-box">
-                    <img src="https://via.placeholder.com/150" alt="ผศ.พิศาล สุขขี" class="avatar-img">
+                    <img src="{% static 'images/teacher4.jpg.webp' %}" alt="ผศ.พิศาล สุขขี" class="avatar-img">
                     <span class="role-pill-float">CS</span>
                 </div>
                 <div class="faculty-meta">
@@ -360,7 +405,7 @@
         <div class="faculty-card">
             <div class="profile-row">
                 <div class="avatar-box">
-                    <img src="https://via.placeholder.com/150" alt="ดร.กนิษฐา อินธิชิต" class="avatar-img">
+                    <img src="{% static 'images/teacher5.jpg.webp' %}" alt="ดร.กนิษฐา อินธิชิต" class="avatar-img">
                     <span class="role-pill-float">IT</span>
                 </div>
                 <div class="faculty-meta">
@@ -378,12 +423,12 @@
     </div>
 </div>
 
-<!-- MODAL 1: ดร.เจษฎา โพนแก้ว -->
+<!-- ================= MODAL 1: ดร.เจษฎา โพนแก้ว ================= -->
 <div id="modal-1" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-head">
             <div class="modal-user-info">
-                <img src="https://via.placeholder.com/150" alt="Avatar">
+                <img src="{% static 'images/teacher1.jpg.webp' %}" alt="ดร.เจษฎา โพนแก้ว">
                 <div>
                     <h3>ผศ. ดร.เจษฎา โพนแก้ว</h3>
                     <p style="font-size: 13px; opacity: 0.85;">Jessada Phonkaew | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
@@ -427,12 +472,12 @@
     </div>
 </div>
 
-<!-- MODAL 2: ดร.เจษฎา ชาตรี -->
+<!-- ================= MODAL 2: ดร.เจษฎา ชาตรี ================= -->
 <div id="modal-2" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-head">
             <div class="modal-user-info">
-                <img src="https://via.placeholder.com/150" alt="Avatar">
+                <img src="{% static 'images/teacher2.jpg.webp' %}" alt="ดร.เจษฎา ชาตรี">
                 <div>
                     <h3>ดร.เจษฎา ชาตรี</h3>
                     <p style="font-size: 13px; opacity: 0.85;">Jessada Chatree | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
@@ -475,12 +520,12 @@
     </div>
 </div>
 
-<!-- MODAL 3: ดร.กริชบดินทร์ ผิวหอม -->
+<!-- ================= MODAL 3: ดร.กริชบดินทร์ ผิวหอม ================= -->
 <div id="modal-3" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-head">
             <div class="modal-user-info">
-                <img src="https://via.placeholder.com/150" alt="Avatar">
+                <img src="{% static 'images/teacher3.jpg.webp' %}" alt="ดร.กริชบดินทร์ ผิวหอม">
                 <div>
                     <h3>ดร.กริชบดินทร์ ผิวหอม</h3>
                     <p style="font-size: 13px; opacity: 0.85;">Krichbodin Phewhom | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
@@ -523,12 +568,12 @@
     </div>
 </div>
 
-<!-- MODAL 4: ผศ.พิศาล สุขขี -->
+<!-- ================= MODAL 4: ผศ.พิศาล สุขขี ================= -->
 <div id="modal-4" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-head">
             <div class="modal-user-info">
-                <img src="https://via.placeholder.com/150" alt="Avatar">
+                <img src="{% static 'images/teacher4.jpg.webp' %}" alt="ผศ.พิศาล สุขขี">
                 <div>
                     <h3>ผศ. พิศาล สุขขี</h3>
                     <p style="font-size: 13px; opacity: 0.85;">Phisan Sukkee | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
@@ -566,12 +611,12 @@
     </div>
 </div>
 
-<!-- MODAL 5: ดร.กนิษฐา อินธิชิต -->
+<!-- ================= MODAL 5: ดร.กนิษฐา อินธิชิต ================= -->
 <div id="modal-5" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-head">
             <div class="modal-user-info">
-                <img src="https://via.placeholder.com/150" alt="Avatar">
+                <img src="{% static 'images/teacher5.jpg.webp' %}" alt="ดร.กนิษฐา อินธิชิต">
                 <div>
                     <h3>ผศ. ดร.กนิษฐา อินธิชิต</h3>
                     <p style="font-size: 13px; opacity: 0.85;">หัวหน้าสาขาวิชาฯ | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
@@ -606,8 +651,8 @@
                 </div>
                 <h4 class="modal-col-title">📝 ผลงานตีพิมพ์</h4>
                 <div class="paper-box">
-                    <strong>การพัฒนาแอปพลิเคชันช่วยตัดสินใจในการเลือกเรียนสาขาวิชาคอมพิวเตอร์บนระบบปฏิบัติการแอนดรอยด์ โดยใช้เทคนิคต้นไม้ตัดสินใจ</strong><br>
-                    <span style="font-size:12px; color:#64748b;">ผู้เขียน: กนิษฐา อินธิชิต, ภควัฒน์ ปิยวงษ์, สุภาพร สุขใส | ตีพิมพ์: พ.ศ. 2565</span>
+                    <strong>การพัฒนาแอปพลิเคชันช่วยตัดสินใจในการเลือกเรียนสาขาวิชาคอมพิวเตอร์บนระบบปฏิบัติการแอนดรอยด์</strong><br>
+                    <span style="font-size:12px; color:#64748b;">ผู้เขียน: กนิษฐา อินธิชิต | ตีพิมพ์: พ.ศ. 2565</span>
                 </div>
             </div>
         </div>
@@ -615,8 +660,12 @@
 </div>
 
 <script>
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function openModal(id) { 
+        document.getElementById(id).classList.add('active'); 
+    }
+    function closeModal(id) { 
+        document.getElementById(id).classList.remove('active'); 
+    }
     window.onclick = function(event) {
         if (event.target.classList.contains('modal-overlay')) {
             event.target.classList.remove('active');
