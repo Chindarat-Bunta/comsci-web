@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โครงสร้างหลักสูตรและแผนการเรียน - วิทยาการคอมพิวเตอร์</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sage-dark: #1b4332;
+            --sage-primary: #2d6a4f;
+            --sage-medium: #52b788;
+            --sage-soft: #74c69d;
+            --sage-mint: #b7e4c7;
+            --sage-light: #d8f3dc;
+            --sage-bg: #f4fbf7;
+            --card-white: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #5a6a7e;
+            --border-soft: #d8ebd4;
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background-color: var(--sage-bg); color: var(--text-main); padding: 40px 20px; line-height: 1.6; }
+        .main-wrapper { max-width: 1200px; margin: 0 auto; }
+
+        /* HEADER HERO */
+        .curriculum-hero {
+            background: linear-gradient(135deg, var(--sage-dark), var(--sage-primary));
+            color: #ffffff;
+            border-radius: 28px;
+            padding: 45px 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 35px rgba(27, 67, 50, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .hero-info h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+        .hero-info p { color: var(--sage-mint); font-size: 16px; max-width: 600px; }
+        .hero-stats { display: flex; gap: 20px; }
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px 22px;
+            border-radius: 18px;
+            text-align: center;
+        }
+        .stat-pill .stat-num { font-size: 22px; font-weight: 700; color: #ffffff; display: block; }
+        .stat-pill .stat-label { font-size: 12px; color: var(--sage-mint); }
+
+        /* SECTION TITLE */
+        .block-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+        .block-title h2 { font-size: 24px; font-weight: 700; color: var(--sage-dark); display: flex; align-items: center; gap: 10px; }
+        .block-title .badge { background: var(--sage-light); color: var(--sage-dark); padding: 6px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+
+        /* TRACK NAVIGATION */
+        .track-tabs-container { display: flex; gap: 12px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px; }
+        .track-tab-btn {
+            background: var(--card-white);
+            border: 2px solid var(--border-soft);
+            color: var(--sage-primary);
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .track-tab-btn:hover { border-color: var(--sage-medium); background: #ffffff; transform: translateY(-2px); }
+        .track-tab-btn.active {
+            background: var(--sage-primary);
+            color: #ffffff;
+            border-color: var(--sage-primary);
+            box-shadow: 0 6px 18px rgba(45, 106, 79, 0.2);
+        }
+
+        /* TRACK CONTENT & BENTO CARDS */
+        .track-content-card {
+            background: var(--card-white);
+            border: 1px solid var(--border-soft);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+        .track-intro { margin-bottom: 30px; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .bento-card {
+            background: #fafdfa;
+            border: 1.5px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+        }
+        .bento-card:hover { background: #ffffff; border-color: var(--sage-medium); transform: translateY(-4px); box-shadow: 0 10px 25px rgba(45, 106, 79, 0.08); }
+        .bento-card-top { margin-bottom: 16px; }
+        .bento-icon-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--sage-light);
+            color: var(--sage-dark);
+            border-radius: 12px;
+            font-size: 18px;
+            margin-bottom: 14px;
+        }
+        .bento-title { font-size: 16px; font-weight: 700; color: var(--sage-dark); line-height: 1.4; margin-bottom: 8px; }
+        .bento-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; }
+        .bento-meta { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+        .meta-tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; }
+        .meta-credit { background: #edf2f7; color: #4a5568; }
+        .meta-lab { background: var(--sage-light); color: var(--sage-dark); }
+
+        /* STUDY PLAN TIMELINE */
+        .schedule-wrapper {
+            background: var(--card-white);
+            border: 1px solid var(--border-soft);
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            margin-bottom: 40px;
+        }
+        .year-stepper { display: flex; gap: 12px; margin-bottom: 30px; justify-content: center; }
+        .year-step-btn {
+            background: transparent;
+            border: 2px solid var(--border-soft);
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 10px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .year-step-btn.active { background: var(--sage-primary); border-color: var(--sage-primary); color: #ffffff; }
+        .semester-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .sem-block { border: 1.5px solid var(--border-soft); border-radius: 18px; overflow: hidden; }
+        .sem-block-header {
+            background: #f4fbf7;
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--sage-dark);
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .table-custom { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .table-custom th {
+            text-align: left;
+            padding: 10px 16px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 12px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .table-custom td { padding: 12px 16px; border-bottom: 1px solid #f1f8f3; }
+        .table-custom tr:last-child td { border-bottom: none; }
+        .code-label { font-weight: 600; color: var(--sage-primary); }
+        .type-badge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+        .type-major { background: var(--sage-light); color: var(--sage-dark); }
+        .type-ge { background: #e0f2fe; color: #0284c7; }
+        .type-elective { background: #fef3c7; color: #b45309; }
+        .type-project { background: #ffedd5; color: #c2410c; }
+        .type-intern { background: #fee2e2; color: #b91c1c; }
+
+        .tab-panel-item { display: none; }
+        .tab-panel-item.active { display: block; }
+
+        @media (max-width: 850px) {
+            .semester-columns { grid-template-columns: 1fr; }
+            .curriculum-hero { padding: 30px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <!-- 1. HERO OVERVIEW BAR -->
+    <header class="curriculum-hero" id="features">
+        <div class="hero-info">
+            <h1>โครงสร้างหลักสูตรและวิชาเรียน</h1>
+            <p>วิทยาศาสตรบัณฑิต (วท.บ.) สาขาวิชาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยราชภัฏศรีสะเกษ</p>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-pill"><span class="stat-num">133</span><span class="stat-label">หน่วยกิตรวม</span></div>
+            <div class="stat-pill"><span class="stat-num">3</span><span class="stat-label">กลุ่มความเชี่ยวชาญ</span></div>
+            <div class="stat-pill"><span class="stat-num">4</span><span class="stat-label">ปีการศึกษา</span></div>
+        </div>
+    </header>
+
+    <!-- 2. TRACK TABS -->
+    <div class="block-title">
+        <h2>⚡ หมวดวิชาตามกลุ่มความเชี่ยวชาญ (Specialization Tracks)</h2>
+        <span class="badge">เลือกเรียนตามความสนใจ</span>
+    </div>
+
+    <div class="track-tabs-container">
+        <button class="track-tab-btn active" onclick="switchTrackTab(event, 'view-core')">
+            <span>🖥️</span> วิทยาการคอมพิวเตอร์หลัก (Core CS)
+        </button>
+        <button class="track-tab-btn" onclick="switchTrackTab(event, 'view-se')">
+            <span>&lt;/&gt;</span> เทคโนโลยีซอฟต์แวร์ (Software Tech)
+        </button>
+        <button class="track-tab-btn" onclick="switchTrackTab(event, 'view-ai')">
+            <span>🤖</span> ปัญญาประดิษฐ์และวิทยาการข้อมูล (AI & Data)
+        </button>
+    </div>
+
+    <!-- TRACK CONTENT -->
+    <div class="track-content-card">
+        <!-- Track 1: Core CS -->
+        <div id="view-core" class="tab-panel-item active">
+            <p class="track-intro">มุ่งเน้นการปูพื้นฐานทฤษฎีทางคอมพิวเตอร์ โครงสร้างระบบ การเขียนโปรแกรม และความมั่นคงปลอดภัยไซเบอร์ เพื่อสร้างนักคอมพิวเตอร์ที่มีความรอบรู้และพร้อมแก้ปัญหาซับซ้อน</p>
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">🌐</div>
+                        <h3 class="bento-title">โครงข่ายคอมพิวเตอร์<br>(Computer Networks)</h3>
+                        <p class="bento-desc">การออกแบบ ติดตั้ง และบำรุงรักษาระบบเครือข่าย ทั้งแบบมีสายและไร้สายเพื่อการสื่อสารในระดับองค์กร</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">🛡️</div>
+                        <h3 class="bento-title">ความปลอดภัยของข้อมูล<br>(Information Security)</h3>
+                        <p class="bento-desc">การป้องกันและควบคุมความปลอดภัยข้อมูล การเข้ารหัสลับ (Cryptography) และการตรวจจับผู้บุกรุก</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">🔍</div>
+                        <h3 class="bento-title">นิติวิทยาศาสตร์คอมพิวเตอร์<br>(Computer Forensics)</h3>
+                        <p class="bento-desc">การตรวจพิสูจน์และวิเคราะห์ข้อมูลที่ถูกโจมตีทางไซเบอร์ การสืบค้นพยานหลักฐานดิจิทัลและกฎหมายไอที</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">🗄️</div>
+                        <h3 class="bento-title">การออกแบบระบบฐานข้อมูล<br>(Database Systems)</h3>
+                        <p class="bento-desc">การออกแบบและจัดการฐานข้อมูลเชิงสัมพันธ์ การใช้ภาษา SQL และการบริหารจัดการคลังข้อมูล</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Track 2: Software Tech -->
+        <div id="view-se" class="tab-panel-item">
+            <p class="track-intro">พัฒนาโปรแกรมประยุกต์ การวิเคราะห์ความต้องการเชิงระบบ สถาปัตยกรรมซอฟต์แวร์ขนาดใหญ่ ตลอดจนการจัดการวงจรชีวิตซอฟต์แวร์ตามมาตรฐานสากล</p>
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">📦</div>
+                        <h3 class="bento-title">วิศวกรรมซอฟต์แวร์<br>(Software Engineering)</h3>
+                        <p class="bento-desc">กระบวนการพัฒนา การวิเคราะห์ ออกแบบ ทดสอบระบบอย่างมีระเบียบแบบแผนและการบำรุงรักษา</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">💻</div>
+                        <h3 class="bento-title">การพัฒนาเว็บแอปพลิเคชัน<br>(Modern Web App)</h3>
+                        <p class="bento-desc">ฝึกปฏิบัติเขียนโปรแกรม Full-Stack ด้วยเฟรมเวิร์กยอดนิยม เช่น React, Next.js, Node.js และ Django</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">🖼️</div>
+                        <h3 class="bento-title">การประมวลผลภาพดิจิทัล<br>(Image Processing)</h3>
+                        <p class="bento-desc">เทคนิคการปรับปรุงคุณภาพภาพ การตรวจจับวัตถุ และการสกัดคุณลักษณะสำคัญเพื่อนำไปประมวลผลต่อ</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">🗺️</div>
+                        <h3 class="bento-title">สารสนเทศภูมิศาสตร์<br>(GIS Technology)</h3>
+                        <p class="bento-desc">การประยุกต์ใช้เทคโนโลยีสารสนเทศในการจัดการ แสดงผล และวิเคราะห์ข้อมูลเชิงพื้นที่และแผนที่</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Track 3: AI & Data Science -->
+        <div id="view-ai" class="tab-panel-item">
+            <p class="track-intro">สร้างความเชี่ยวชาญด้านระบบวิเคราะห์ข้อมูลขนาดใหญ่ การพยากรณ์เชิงสถิติ และการสร้างโมเดล Machine / Deep Learning ที่ชาญฉลาด</p>
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">🧠</div>
+                        <h3 class="bento-title">ปัญญาประดิษฐ์<br>(Artificial Intelligence)</h3>
+                        <p class="bento-desc">การสร้างระบบจำลองกระบวนการคิดของมนุษย์ การประมวลผลภาษาธรรมชาติ (NLP) และระบบอัตโนมัติ</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">📊</div>
+                        <h3 class="bento-title">วิทยาการข้อมูล<br>(Data Science)</h3>
+                        <p class="bento-desc">การสกัดและวิเคราะห์เชิงลึกจากฐานข้อมูลขนาดใหญ่ (Big Data) เพื่อตอบโจทย์การตัดสินใจทางธุรกิจ</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">⚙️</div>
+                        <h3 class="bento-title">การเรียนรู้ของเครื่อง<br>(Machine Learning)</h3>
+                        <p class="bento-desc">การฝึกสอนโมเดลการเรียนรู้แบบมีผู้สอนและไม่มีผู้สอน (Supervised/Unsupervised) เพื่อพยากรณ์ข้อมูล</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-card-top">
+                        <div class="bento-icon-tag">⌨️</div>
+                        <h3 class="bento-title">การเขียนโปรแกรมข้อมูล<br>(Python/R for Data)</h3>
+                        <p class="bento-desc">การใช้ภาษา Python และ R ในการทำความสะอาดข้อมูล (Data Cleansing) จัดการโครงสร้าง และพล็อตแสดงผล</p>
+                    </div>
+                    <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. STUDY PLAN TIMELINE -->
+    <section class="schedule-wrapper" id="schedule">
+        <div class="block-title">
+            <h2>📅 แผนการศึกษาตลอดหลักสูตร 4 ปี</h2>
+            <span class="badge">Study Plan</span>
+        </div>
+
+        <div class="year-stepper">
+            <button class="year-step-btn active" onclick="switchYearTab(event, 'sched-1-2')">ปีที่ 1 และ ปีที่ 2</button>
+            <button class="year-step-btn" onclick="switchYearTab(event, 'sched-3-4')">ปีที่ 3 และ ปีที่ 4</button>
+        </div>
+
+        <!-- Y1 & Y2 -->
+        <div id="sched-1-2" class="tab-panel-item active">
+            <div style="margin-bottom: 24px;">
+                <h3 style="color: var(--sage-primary); margin-bottom: 12px;">📌 แผนการเรียนชั้นปีที่ 1</h3>
+                <div class="semester-columns">
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 1</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS101</td><td>พื้นฐานวิทยาการคอมพิวเตอร์</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS102</td><td>การเขียนโปรแกรมเบื้องต้น (Python)</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">MA111</td><td>คณิตศาสตร์ดิสครีต</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">GE101</td><td>ภาษาอังกฤษเพื่อการสื่อสาร</td><td><span class="type-badge type-ge">ศึกษาทั่วไป</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 2</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS103</td><td>การเขียนโปรแกรมเชิงวัตถุ (Java)</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS104</td><td>โครงสร้างข้อมูลและอัลกอริทึม</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">MA112</td><td>สถิติและคณิตศาสตร์สัญลักษณ์</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">GE102</td><td>ทักษะชีวิตและความเป็นพลเมือง</td><td><span class="type-badge type-ge">ศึกษาทั่วไป</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: var(--sage-primary); margin-bottom: 12px;">📌 แผนการเรียนชั้นปีที่ 2</h3>
+                <div class="semester-columns">
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 1</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS201</td><td>สถาปัตยกรรมคอมพิวเตอร์และ OS</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS202</td><td>ระบบฐานข้อมูลและการออกแบบ</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS203</td><td>วิศวกรรมซอฟต์แวร์เบื้องต้น</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS204</td><td>โครงข่ายคอมพิวเตอร์และการสื่อสาร</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 2</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS205</td><td>การพัฒนาเว็บแอปพลิเคชัน</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS206</td><td>การวิเคราะห์และออกแบบระบบ</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS207</td><td>ความมั่นคงปลอดภัยสารสนเทศ</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS208</td><td>คณิตศาสตร์และสถิติสำหรับ AI</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Y3 & Y4 -->
+        <div id="sched-3-4" class="tab-panel-item">
+            <div style="margin-bottom: 24px;">
+                <h3 style="color: var(--sage-primary); margin-bottom: 12px;">📌 แผนการเรียนชั้นปีที่ 3</h3>
+                <div class="semester-columns">
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 1</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS301</td><td>AI เชิงทฤษฎีและการประยุกต์</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS302</td><td>วิทยาการข้อมูลและการวิเคราะห์</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS303</td><td>ภูมิสารสนเทศศาสตร์เบื้องต้น</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS3XX</td><td>วิชาเลือกเฉพาะทางสาขา (1)</td><td><span class="type-badge type-elective">วิชาเลือก</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 2</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS304</td><td>การเตรียมฝึกประสบการณ์วิชาชีพ</td><td><span class="type-badge type-project">ฝึกทักษะ</span></td></tr>
+                                <tr><td class="code-label">CS305</td><td>โครงงานวิทยาการคอมพิวเตอร์ 1</td><td><span class="type-badge type-project">โครงงาน</span></td></tr>
+                                <tr><td class="code-label">CS3XX</td><td>วิชาเลือกเฉพาะทางสาขา (2)</td><td><span class="type-badge type-elective">วิชาเลือก</span></td></tr>
+                                <tr><td class="code-label">CS3XX</td><td>วิชาเลือกเสรีองค์กรไอที</td><td><span class="type-badge type-ge">เลือกเสรี</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: var(--sage-primary); margin-bottom: 12px;">📌 แผนการเรียนชั้นปีที่ 4</h3>
+                <div class="semester-columns">
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 1</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td class="code-label">CS401</td>
+                                    <td>สหกิจศึกษาทางวิทยาการคอมพิวเตอร์ / การฝึกงาน</td>
+                                    <td><span class="type-badge type-intern">ปฏิบัติงานจริง</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 2</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS402</td><td>สัมมนาและเทคโนโลยีที่เกิดใหม่</td><td><span class="type-badge type-project">สัมมนา</span></td></tr>
+                                <tr><td class="code-label">CS403</td><td>โครงงานวิทยาการคอมพิวเตอร์ 2</td><td><span class="type-badge type-project">โครงงานจบ</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    function switchTrackTab(evt, tabId) {
+        document.querySelectorAll('.tab-panel-item[id^="view-"]').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.track-tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    function switchYearTab(evt, schedId) {
+        document.getElementById('sched-1-2').classList.remove('active');
+        document.getElementById('sched-3-4').classList.remove('active');
+        document.querySelectorAll('.year-step-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(schedId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+</script>
+</body>
+</html>

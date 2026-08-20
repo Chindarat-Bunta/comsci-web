@@ -1,4 +1,6 @@
+
 from django.shortcuts import render, redirect
+from .models import Track, Course
 
 # Create your views here.
 
@@ -6,7 +8,7 @@ def index(request):
     import datetime
 
     context = {
-        "title": "My Home Page",
+        "title": "Computer Science",
     }
 
     context["date"] = datetime.date.today()
@@ -15,5 +17,14 @@ def index(request):
 def about(request):
     return redirect("/#about")
 
+def curriculum(request):
+    return render(request, "curriculum.html")
+
+
+def faculty(request):
+    return render(request, "faculty.html")
+
+
 def contact(request):
-    return redirect("/#contact")
+    return render(request, "contact.html")
+
