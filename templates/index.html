@@ -363,7 +363,11 @@
     .hero-split-container {
         display: grid;
         grid-template-columns: 1.15fr 0.85fr;
-        gap: 40px;
+        grid-template-rows: auto auto;
+        grid-template-areas: 
+            "brand carousel"
+            "action carousel";
+        gap: 20px 40px;
         align-items: center;
         padding: 60px 45px;
         background: linear-gradient(135deg, var(--sage-dark) 0%, var(--sage-primary) 100%);
@@ -378,7 +382,12 @@
     @media (max-width: 991px) {
         .hero-split-container {
             grid-template-columns: 1fr;
-            gap: 30px;
+            grid-template-rows: auto auto auto;
+            grid-template-areas: 
+                "brand"
+                "carousel"
+                "action";
+            gap: 25px;
             padding: 40px 24px;
         }
     }
@@ -422,10 +431,16 @@
         font-family: 'Outfit', sans-serif;
     }
     
-    .hero-left-content {
+    .hero-brand-group {
+        grid-area: brand;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+    }
+    
+    .hero-action-group {
+        grid-area: action;
+        display: flex;
+        flex-direction: column;
     }
     
     .hero-main-title {
@@ -499,8 +514,16 @@
         transform: translateY(-2px);
     }
     
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    
     .hero-right-carousel {
+        grid-area: carousel;
         width: 100%;
+        animation: float 6s ease-in-out infinite;
     }
     
     .hero-carousel {
@@ -508,6 +531,40 @@
         overflow: hidden;
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
         border: 3px solid rgba(255, 255, 255, 0.15);
+    }
+    
+    /* ==========================================
+       Hero stats row under buttons
+       ========================================== */
+    .hero-stats-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 25px;
+    }
+    
+    .stat-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 6px 14px;
+        border-radius: 50px;
+        color: #ffffff;
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .stat-pill:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .stat-pill .stat-icon {
+        color: var(--sage-mint);
+        font-size: 0.95rem;
     }
     
     .hero-carousel .carousel-item img {
@@ -523,68 +580,123 @@
     }
     
     /* ==========================================
-       About Us Section Dashboard Layout
+       About Us Section Accordion Layout
        ========================================== */
-    .about-dashboard-tabs {
-        display: flex;
-        background: #f1f5f9;
-        padding: 6px;
-        border-radius: 16px;
-        gap: 8px;
-        margin-bottom: 30px;
-        flex-wrap: wrap;
+    .about-accordion {
+        border-radius: 20px;
+        overflow: hidden;
         border: 1px solid var(--border-soft);
+        box-shadow: 0 10px 30px rgba(45, 106, 79, 0.04);
+        background: #ffffff;
     }
     
-    .about-dash-tab {
-        flex: 1 1 200px;
-        padding: 12px 20px;
+    .about-accordion .accordion-item {
         border: none;
+        border-bottom: 1px solid var(--border-soft);
         background: transparent;
+    }
+    
+    .about-accordion .accordion-item:last-child {
+        border-bottom: none;
+    }
+    
+    .about-accordion .accordion-button {
+        padding: 22px 30px;
+        background: #ffffff;
+        color: var(--text-main);
+        font-size: 1.05rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border: none;
+        box-shadow: none;
+        transition: all 0.3s ease;
+        text-align: left;
+    }
+    
+    .about-accordion .accordion-button:not(.collapsed) {
+        background: linear-gradient(135deg, rgba(216, 243, 220, 0.2) 0%, rgba(183, 228, 199, 0.1) 100%);
+        color: var(--sage-dark);
+    }
+    
+    .about-accordion .accordion-button::after {
+        background-size: 1.15rem;
+        margin-left: auto;
+        transition: transform 0.3s ease;
+        filter: sepia(60%) saturate(1000%) hue-rotate(100deg);
+    }
+    
+    .acc-icon-wrapper {
+        width: 44px;
+        height: 44px;
         border-radius: 12px;
-        color: var(--text-muted);
-        font-weight: 600;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(45, 106, 79, 0.08);
+        color: var(--sage-primary);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        font-size: 1.25rem;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
     }
     
-    .about-dash-tab i {
+    .about-accordion .accordion-button:not(.collapsed) .acc-icon-wrapper {
+        background: var(--sage-primary);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(45, 106, 79, 0.15);
+    }
+    
+    .acc-title-group {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        text-align: left;
+    }
+    
+    .acc-title {
         font-size: 1.1rem;
-        transition: transform 0.3s ease;
+        font-weight: 700;
+        color: var(--text-main);
+        line-height: 1.3;
     }
     
-    .about-dash-tab:hover {
+    .about-accordion .accordion-button:not(.collapsed) .acc-title {
         color: var(--sage-dark);
-        background: rgba(255, 255, 255, 0.5);
     }
     
-    .about-dash-tab:hover i {
-        transform: scale(1.1);
+    .acc-subtitle {
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        line-height: 1.3;
     }
     
-    .about-dash-tab.active {
-        background: #ffffff;
-        color: var(--sage-dark);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        border: 1px solid var(--border-soft);
+    .about-accordion .accordion-body {
+        padding: 35px 40px;
+        background: #faf8f5;
     }
     
-    .about-panel {
-        display: none;
-        opacity: 0;
-        transform: translateY(15px);
-        transition: all 0.4s ease-in-out;
-    }
-    
-    .about-panel.active {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
+    @media (max-width: 768px) {
+        .about-accordion .accordion-button {
+            padding: 16px 20px;
+            gap: 12px;
+        }
+        .acc-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+            border-radius: 8px;
+        }
+        .acc-title {
+            font-size: 0.95rem;
+        }
+        .acc-subtitle {
+            font-size: 0.75rem;
+        }
+        .about-accordion .accordion-body {
+            padding: 20px;
+        }
     }
     
     .about-panel-intro {
@@ -595,6 +707,251 @@
         border-left: 3px solid var(--sage-primary);
         padding-left: 12px;
     }
+    
+    /* ==========================================
+       Curriculum Metrics Card (Study Plan)
+       ========================================== */
+    .curriculum-metrics-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        border: 1px solid var(--border-soft);
+        border-radius: 20px;
+        padding: 22px 30px;
+        gap: 40px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(45, 106, 79, 0.04);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .metric-item {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+    
+    .metric-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(45, 106, 79, 0.08);
+        color: var(--sage-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.35rem;
+    }
+    
+    .metric-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .metric-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .metric-value {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--sage-dark);
+        line-height: 1.1;
+    }
+    
+    .metric-unit {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text-muted);
+    }
+    
+    .metric-divider {
+        width: 1px;
+        height: 40px;
+        background-color: var(--border-soft);
+    }
+    
+    @media (max-width: 576px) {
+        .curriculum-metrics-card {
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+        .metric-divider {
+            width: 80%;
+            height: 1px;
+        }
+        .metric-item {
+            width: 100%;
+            justify-content: flex-start;
+            padding-left: 15px;
+        }
+    }
+    
+    /* ==========================================
+       Custom Centered Section Headers
+       ========================================== */
+    .cs-header-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 35px;
+        width: 100%;
+    }
+    
+    .cs-section-header {
+        font-size: 1.55rem !important; /* Prominent but elegant */
+        font-weight: 800 !important;
+        color: var(--sage-dark) !important;
+        background: #ffffff !important;
+        border: 2px solid var(--border-soft) !important;
+        border-radius: 50px !important; /* Pill style */
+        padding: 12px 28px !important;
+        box-shadow: 0 8px 24px rgba(45, 106, 79, 0.06) !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 10px !important;
+        margin: 0 auto 16px auto !important;
+        position: relative !important;
+    }
+    
+    /* Remove left indicator line */
+    .cs-section-header::after {
+        display: none !important;
+    }
+    
+    .cs-section-subtitle {
+        font-size: 1.02rem;
+        color: var(--text-muted);
+        max-width: 760px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+    
+    @media (max-width: 576px) {
+        .cs-section-header {
+            font-size: 1.25rem !important;
+            padding: 10px 20px !important;
+        }
+        .cs-section-subtitle {
+            font-size: 0.92rem;
+            padding: 0 10px;
+        }
+    }
+    
+    /* ==========================================
+       Contact Section Map & Social Media
+       ========================================== */
+    .contact-map-container {
+        width: 100%;
+        margin-bottom: 35px;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 2px solid var(--border-soft);
+        box-shadow: 0 10px 30px rgba(45, 106, 79, 0.04);
+    }
+    
+    .contact-social-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+        width: 100%;
+    }
+    
+    .social-section-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--sage-dark);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .social-buttons-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .social-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 28px;
+        border-radius: 50px; /* Pill style */
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    }
+    
+    .social-btn i, .social-btn svg {
+        font-size: 1.1rem;
+        margin-right: 10px;
+    }
+    
+    /* Facebook styling */
+    .btn-facebook {
+        background: #ffffff;
+        color: #1877f2;
+        border: 1.5px solid #1877f2;
+    }
+    .btn-facebook:hover {
+        background: #1877f2;
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(24, 119, 242, 0.25);
+    }
+    
+    /* TikTok styling */
+    .btn-tiktok {
+        background: #ffffff;
+        color: #000000;
+        border: 1.5px solid #000000;
+    }
+    .btn-tiktok:hover {
+        background: #000000;
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Instagram styling */
+    .btn-instagram {
+        background: #ffffff;
+        color: #e1306c;
+        border: 1.5px solid #e1306c;
+    }
+    .btn-instagram:hover {
+        background: #e1306c;
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(225, 48, 108, 0.25);
+    }
+    
+    @media (max-width: 576px) {
+        .social-buttons-grid {
+            flex-direction: column;
+            width: 100%;
+            padding: 0 20px;
+        }
+        .social-btn {
+            width: 100%;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -603,8 +960,8 @@
 <!-- Section: Home & Menu Grid -->
 <section id="home">
     <div class="hero-split-container">
-        <!-- Left content: badge, titles, tagline, CTAs -->
-        <div class="hero-left-content">
+        <!-- Group 1: Brand details (Badge, Title, Motto) -->
+        <div class="hero-brand-group">
             <div class="comsci-pill-badge">
                 <div class="comsci-pill-logo">
                     <img src="{% static 'images/logo_major.jpg' %}" alt="CS Logo">
@@ -616,18 +973,13 @@
             <h2 class="hero-sub-title">มรภ. ศรีสะเกษ</h2>
             
             <p class="hero-motto">"ก้าวสู่อนาคตทางเทคโนโลยี สร้างสรรค์ซอฟต์แวร์นวัตกรรม"</p>
-            
-            <div class="hero-action-buttons">
-                <a href="https://www.oass.sskru.ac.th/std.sskru/s1.html" target="_blank" class="hero-btn btn-primary-sage">สมัครเข้าศึกษาต่อ</a>
-                <a href="#curriculum" class="hero-btn btn-secondary-sage">ข้อมูลหลักสูตร</a>
-            </div>
         </div>
         
-        <!-- Right content: Carousel slideshow -->
+        <!-- Group 2: Carousel slideshow -->
         <div class="hero-right-carousel">
             <div id="carouselExampleInterval" class="carousel slide hero-carousel" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="10000">
+                    <div class="carousel-item active" data-bs-interval="1000">
                         <img src="{% static 'images/logo_major.jpg' %}" class="d-block w-100" alt="Logo">
                     </div>
                     <div class="carousel-item" data-bs-interval="2000">
@@ -647,7 +999,38 @@
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
                 </button>
+            </div>
+        </div>
+
+        <!-- Group 3: CTAs and Stats -->
+        <div class="hero-action-group">
+            <div class="hero-action-buttons">
+                <a href="https://www.oass.sskru.ac.th/std.sskru/s1.html" target="_blank" class="hero-btn btn-primary-sage">สมัครเข้าศึกษาต่อ</a>
+                <a href="#curriculum" class="hero-btn btn-secondary-sage">ข้อมูลหลักสูตรวิชา</a>
+            </div>
+            
+            <!-- Hero Stats Row -->
+            <div class="hero-stats-row">
+                <div class="stat-pill">
+                    <span class="stat-icon"><i class="fas fa-clock"></i></span>
+                    <span class="stat-text">ระยะเวลาหลักสูตร 4 ปี</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-icon"><i class="fas fa-graduation-cap"></i></span>
+                    <span class="stat-text">133 หน่วยกิตขั้นต่ำ</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-icon"><i class="fas fa-briefcase"></i></span>
+                    <span class="stat-text">100% มีงานทำ</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-icon"><i class="fas fa-users"></i></span>
+                    <span class="stat-text">500+ จำนวนศิษย์เก่า</span>
+                </div>
             </div>
         </div>
     </div>
@@ -658,35 +1041,32 @@
 
 <!-- Section: About Us -->
 <section id="about" class="cs-section">
-    <h2 class="cs-section-header">
-        <i class="fas fa-info-circle"></i> เกี่ยวกับสาขาวิชาและหลักสูตร
-    </h2>
-    <div class="cs-section-content">
-        <p style="margin-bottom: 30px; font-size: 1.05rem; line-height: 1.8;">
+    <div class="cs-header-container">
+        <h2 class="cs-section-header">
+            <i class="fas fa-info-circle"></i> เกี่ยวกับสาขาวิชาและหลักสูตร
+        </h2>
+        <p class="cs-section-subtitle">
             ยินดีต้อนรับสู่สาขาวิชาวิทยาการคอมพิวเตอร์ มุ่งเน้นการจัดการเรียนการสอนและวิจัยเพื่อผลิตบัณฑิตที่มีความสามารถในการสร้างสรรค์นวัตกรรมดิจิทัล พัฒนาซอฟต์แวร์ และระบบเทคโนโลยีสารสนเทศที่มีประสิทธิภาพ พร้อมการผลักดันการเรียนรู้เชิงทักษะและคุณธรรมจริยธรรมเพื่อรับใช้สังคม
         </p>
+    </div>
+    <div class="cs-section-content">
 
-        <!-- Interactive Dashboard Nav Tabs -->
-        <div class="about-dashboard-tabs">
-            <button class="about-dash-tab active" onclick="switchAboutTab(event, 'about-philosophy')">
-                <i class="fas fa-eye"></i> ปรัชญาและวิสัยทัศน์
-            </button>
-            <button class="about-dash-tab" onclick="switchAboutTab(event, 'about-missions')">
-                <i class="fas fa-rocket"></i> พันธกิจหลักสูตร
-            </button>
-            <button class="about-dash-tab" onclick="switchAboutTab(event, 'about-objectives')">
-                <i class="fas fa-bullseye"></i> วัตถุประสงค์
-            </button>
-            <button class="about-dash-tab" onclick="switchAboutTab(event, 'about-plos')">
-                <i class="fas fa-graduation-cap"></i> ผลลัพธ์การเรียนรู้ (PLOs)
-            </button>
-        </div>
-
-        <!-- Dashboard Panels -->
-        <div class="about-dashboard-panels">
-            <!-- Panel 1: Philosophy & Vision -->
-            <div id="about-philosophy" class="about-panel active">
-                <p class="about-panel-intro">แนวคิดหลักและทิศทางการดำเนินงานของหลักสูตรเพื่อการพัฒนาและขับเคลื่อนสังคมท้องถิ่น</p>
+        <!-- Accordion Layout for About Us -->
+        <div class="accordion about-accordion" id="aboutAccordion">
+            <!-- Item 1: Philosophy & Vision -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingPhilosophy">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePhilosophy" aria-expanded="true" aria-controls="collapsePhilosophy">
+                        <span class="acc-icon-wrapper"><i class="fas fa-eye"></i></span>
+                        <div class="acc-title-group">
+                            <span class="acc-title">ปรัชญา & วิสัยทัศน์</span>
+                            <span class="acc-subtitle">แนวคิดและเป้าหมายหลักในการพัฒนาและขับเคลื่อนสังคมท้องถิ่น</span>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapsePhilosophy" class="accordion-collapse collapse show" aria-labelledby="headingPhilosophy" data-bs-parent="#aboutAccordion">
+                    <div class="accordion-body">
+                        <p class="about-panel-intro">แนวคิดหลักและทิศทางการดำเนินงานของหลักสูตรเพื่อการพัฒนาและขับเคลื่อนสังคมท้องถิ่น</p>
                 <div class="about-hero-grid">
                     <!-- Philosophy Card -->
                     <div class="about-philosophy-card">
@@ -709,11 +1089,24 @@
                         </div>
                     </div>
                 </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Panel 2: Missions -->
-            <div id="about-missions" class="about-panel">
-                <p class="about-panel-intro">พันธกิจ 4 มิติแห่งการผลักดันการเติบโตและการมีส่วนร่วมกับชุมชนท้องถิ่นอย่างยั่งยืน</p>
+            <!-- Item 2: Missions -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingMissions">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMissions" aria-expanded="false" aria-controls="collapseMissions">
+                        <span class="acc-icon-wrapper"><i class="fas fa-rocket"></i></span>
+                        <div class="acc-title-group">
+                            <span class="acc-title">พันธกิจหลักสูตร</span>
+                            <span class="acc-subtitle">4 มิติแห่งการผลักดันการเติบโตและการมีส่วนร่วมกับชุมชนท้องถิ่นอย่างยั่งยืน</span>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseMissions" class="accordion-collapse collapse" aria-labelledby="headingMissions" data-bs-parent="#aboutAccordion">
+                    <div class="accordion-body">
+                        <p class="about-panel-intro">พันธกิจ 4 มิติแห่งการผลักดันการเติบโตและการมีส่วนร่วมกับชุมชนท้องถิ่นอย่างยั่งยืน</p>
                 <div class="about-mission-grid">
                     <!-- Mission 1 -->
                     <div class="about-mission-card">
@@ -748,11 +1141,24 @@
                         <p>หล่อหลอมความซื่อสัตย์สุจริต การเคารพในกฎหมายทรัพย์สินทางปัญญา ลิขสิทธิ์ซอฟต์แวร์ และปฏิบัติตามจรรยาบรรณวิชาชีพนักไอทีอย่างมั่นคง</p>
                     </div>
                 </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Panel 3: Objectives -->
-            <div id="about-objectives" class="about-panel">
-                <p class="about-panel-intro">วัตถุประสงค์เฉพาะของหลักสูตรเพื่อการบ่มเพาะบัณฑิตสู่ผลลัพธ์การเรียนรู้เชิงทักษะ 4 ด้าน</p>
+            <!-- Item 3: Objectives -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingObjectives">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseObjectives" aria-expanded="false" aria-controls="collapseObjectives">
+                        <span class="acc-icon-wrapper"><i class="fas fa-bullseye"></i></span>
+                        <div class="acc-title-group">
+                            <span class="acc-title">วัตถุประสงค์เฉพาะของหลักสูตร</span>
+                            <span class="acc-subtitle">เป้าหมายเชิงทักษะ 4 ด้านเพื่อการบ่มเพาะบัณฑิต</span>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseObjectives" class="accordion-collapse collapse" aria-labelledby="headingObjectives" data-bs-parent="#aboutAccordion">
+                    <div class="accordion-body">
+                        <p class="about-panel-intro">วัตถุประสงค์เฉพาะของหลักสูตรเพื่อการบ่มเพาะบัณฑิตสู่ผลลัพธ์การเรียนรู้เชิงทักษะ 4 ด้าน</p>
                 <div class="about-obj-grid">
                     <!-- Obj 1 -->
                     <div class="about-obj-card">
@@ -787,11 +1193,24 @@
                         <div class="about-obj-bg-num">04</div>
                     </div>
                 </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Panel 4: PLOs -->
-            <div id="about-plos" class="about-panel">
-                <p class="about-panel-intro">ผลลัพธ์การเรียนรู้ที่คาดหวังระดับหลักสูตร (Program Learning Outcomes)</p>
+            <!-- Item 4: PLOs -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingPlos">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePlos" aria-expanded="false" aria-controls="collapsePlos">
+                        <span class="acc-icon-wrapper"><i class="fas fa-graduation-cap"></i></span>
+                        <div class="acc-title-group">
+                            <span class="acc-title">ผลลัพธ์การเรียนรู้ที่คาดหวังระดับหลักสูตร (PLOs)</span>
+                            <span class="acc-subtitle">ทักษะและความรู้ความสามารถระดับหลักสูตร</span>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapsePlos" class="accordion-collapse collapse" aria-labelledby="headingPlos" data-bs-parent="#aboutAccordion">
+                    <div class="accordion-body">
+                        <p class="about-panel-intro">ผลลัพธ์การเรียนรู้ที่คาดหวังระดับหลักสูตร (Program Learning Outcomes)</p>
                 <div class="about-plo-list">
                     <!-- PLO1 -->
                     <div class="about-plo-item">
@@ -904,16 +1323,23 @@
                         * ตัวเลขระบุระดับการเรียนรู้ตามแนวทางมาตรฐานการอุดมศึกษา พ.ศ. 2565
                     </div>
                 </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+</div>
 </section>
 
 <!-- Section: Curriculum Specialization Tracks -->
 <section id="curriculum" class="cs-section">
-    <h2 class="cs-section-header">
-        <i class="fas fa-book"></i> หลักสูตรวิทยาศาสตรบัณฑิต
-    </h2>
+    <div class="cs-header-container">
+        <h2 class="cs-section-header">
+            <i class="fas fa-book"></i> หลักสูตรวิทยาศาสตรบัณฑิต
+        </h2>
+        <p class="cs-section-subtitle">
+            หลักสูตรวิทยาศาสตรบัณฑิต สาขาวิชาวิทยาการคอมพิวเตอร์ (วท.บ.) มุ่งเน้นการวิเคราะห์ข้อมูลและเทคโนโลยีการพัฒนาซอฟต์แวร์เพื่อสร้างนวัตกรระบบดิจิทัลมืออาชีพ
+        </p>
+    </div>
     <div class="cs-section-content">
         <!-- 2. TRACK TABS -->
         <div class="block-title">
@@ -1057,10 +1483,34 @@
 
 <!-- Section: Study Plan Timeline -->
 <section id="schedule" class="cs-section">
-    <h2 class="cs-section-header">
-        <i class="fas fa-graduation-cap"></i> แผนการเรียน 4 ปี
-    </h2>
+    <div class="cs-header-container">
+        <h2 class="cs-section-header">
+            <i class="fas fa-graduation-cap"></i> แผนการเรียนแนะนำตลอดหลักสูตร
+        </h2>
+        <p class="cs-section-subtitle">
+            ตัวอย่างตารางวิชาหลักในการเรียนในแต่ละชั้นปีการศึกษา (หน่วยกิตรวมไม่น้อยกว่า 133 หน่วยกิต)
+        </p>
+    </div>
     <div class="cs-section-content">
+        <!-- Curriculum Metrics Card -->
+        <div class="curriculum-metrics-card">
+            <div class="metric-item">
+                <div class="metric-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div class="metric-info">
+                    <span class="metric-label">ระยะเวลาหลักสูตร</span>
+                    <span class="metric-value">4 <span class="metric-unit">ปี</span></span>
+                </div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-item">
+                <div class="metric-icon"><i class="fas fa-book-open"></i></div>
+                <div class="metric-info">
+                    <span class="metric-label">หน่วยกิตขั้นต่ำ</span>
+                    <span class="metric-value">133 <span class="metric-unit">หน่วยกิต</span></span>
+                </div>
+            </div>
+        </div>
+
         <div class="year-stepper">
             <button class="year-step-btn active" onclick="switchYearTab(event, 'sched-1-2')">ปีที่ 1 และ ปีที่ 2</button>
             <button class="year-step-btn" onclick="switchYearTab(event, 'sched-3-4')">ปีที่ 3 และ ปีที่ 4</button>
@@ -1195,9 +1645,14 @@
 
 <!-- Section: Faculty Directory -->
 <section id="faculty" class="cs-section">
-    <h2 class="cs-section-header">
-        <i class="fas fa-user-tie"></i> คณาจารย์ประจำหลักสูตร
-    </h2>
+    <div class="cs-header-container">
+        <h2 class="cs-section-header">
+            <i class="fas fa-user-tie"></i> คณาจารย์ประจำหลักสูตร
+        </h2>
+        <p class="cs-section-subtitle">
+            คณาจารย์ผู้รับผิดชอบหลักสูตรและคณาจารย์ประจำสาขาวิชา ร่วมขับเคลื่อนการจัดการเรียนการสอนและนวัตกรรมใหม่
+        </p>
+    </div>
     <div class="cs-section-content">
         <div class="faculty-grid">
             <!-- 1. ดร.เจษฎา โพนแก้ว -->
@@ -1266,7 +1721,7 @@
                     </div>
                     <div class="faculty-meta">
                         <h3>ผศ. พิศาล สุขขี</h3>
-                        <span>Phisan Sukkee</span>
+                        <span>Phisan Sukkhee</span>
                     </div>
                 </div>
                 <div class="tag-row">
@@ -1301,11 +1756,21 @@
 
 <!-- Section: Contact Us -->
 <section id="contact" class="cs-section">
-    <h2 class="cs-section-header">
-        <i class="fas fa-envelope"></i> ติดต่อสาขาวิชา
-    </h2>
+    <div class="cs-header-container">
+        <h2 class="cs-section-header">
+            <i class="fas fa-envelope"></i> ติดต่อสาขาวิชา
+        </h2>
+        <p class="cs-section-subtitle">
+            มีข้อสงสัยเกี่ยวกับหลักสูตร โควตาการรับสมัคร หรือสอบถามรายละเอียดเพิ่มเติม ได้ตลอดเวลา
+        </p>
+    </div>
     <div class="cs-section-content">
-        <p style="margin-bottom: 25px;">คุณสามารถติดต่อสาขาวิชาวิทยาการคอมพิวเตอร์ได้ ณ สำนักงานประจำสาขา คณะศิลปศาสตร์และวิทยาศาสตร์ ในเวลาทำการ</p>
+        <!-- Google Map Embed at the top -->
+        <div class="contact-map-container">
+            <iframe src="https://www.google.com/maps?cid=12218245833903632535&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAMYASAF&hl=th-TH&source=embed&output=embed" width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <p style="margin-bottom: 25px; text-align: center; color: var(--text-muted); font-size: 1.05rem;">คุณสามารถติดต่อสาขาวิชาวิทยาการคอมพิวเตอร์ได้ ณ สำนักงานประจำสาขา คณะศิลปศาสตร์และวิทยาศาสตร์ ในเวลาทำการ</p>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 20px;">
             <!-- โทรศัพท์ -->
@@ -1313,7 +1778,7 @@
                 <h4 style="color: var(--sage-primary); font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                     <i class="fas fa-phone-alt"></i> เบอร์โทรติดต่อสาขาวิชาฯ
                 </h4>
-                <p style="font-size: 14.5px; line-height: 1.6;">
+                <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-muted);">
                     043-009700 ต่อ 50528<br>
                     <strong>สายด่วน:</strong> <a href="tel:084-298-2456" style="color: var(--sage-primary); text-decoration: none; font-weight: 600;">084-298-2456</a>
                 </p>
@@ -1324,9 +1789,9 @@
                 <h4 style="color: var(--sage-primary); font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                     <i class="fas fa-envelope-open-text"></i> อีเมลติดต่อสาขาวิชาฯ
                 </h4>
-                <p style="font-size: 14.5px; line-height: 1.6;">
+                <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-muted);">
                     <a href="mailto:phisan.s@sskru.ac.th" style="color: var(--sage-primary); text-decoration: none; font-weight: 600;">phisan.s@sskru.ac.th</a><br>
-                    <strong>หัวหน้าสาขาวิชาฯ:</strong> ผศ.ดร.กนิษฐา อินธิชิต (หัวหน้าสาขาวิชาฯ)
+                    <strong>หัวหน้าสาขาวิชาฯ:</strong> ผศ.ดร.กนิษฐา อินธิชิต
                 </p>
             </div>
 
@@ -1335,11 +1800,30 @@
                 <h4 style="color: var(--sage-primary); font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                     <i class="fas fa-map-marker-alt"></i> ที่ตั้งอาคารเรียน
                 </h4>
-                <p style="font-size: 14.5px; line-height: 1.6;">
+                <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-muted);">
                     สาขาวิชาฯ ตั้งอยู่ที่ชั้น 5 อาคารสำนักงานคณบดี<br>
                     คณะศิลปศาสตร์และวิทยาศาสตร์ (LASC) มรภ.ศรีสะเกษ<br>
                     ถ.ไทยพันทา อ.เมือง จ.ศรีสะเกษ
                 </p>
+            </div>
+        </div>
+
+        <!-- Social Media Channels -->
+        <div class="contact-social-section">
+            <h4 class="social-section-title">ช่องทางออนไลน์อื่นๆ ของสาขาวิชาฯ</h4>
+            <div class="social-buttons-grid">
+                <!-- Facebook -->
+                <a href="https://web.facebook.com/comsci.sskru?rdid=wKwnrfPwcBxkdDuE&share_url=https%3A%2F%2Fweb.facebook.com%2Fshare%2F1HdoN1v4EJ%2F%3F_rdc%3D1%26_rdr#" target="_blank" class="social-btn btn-facebook">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+                <!-- TikTok -->
+                <a href="https://www.tiktok.com/@comsciencesskru?is_from_webapp=1&sender_device=pc" target="_blank" class="social-btn btn-tiktok">
+                    <svg class="tiktok-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a72.84,72.84,0,1,0,51.47,70V0h89.77a111,111,0,0,0,21.84,65.34,115.11,115.11,0,0,0,58,35.53V209.91Z"/></svg> TikTok
+                </a>
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/comsci_sskru?igsi=b3NqOGtqb3ppNGF1" target="_blank" class="social-btn btn-instagram">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
             </div>
         </div>
     </div>
@@ -1588,6 +2072,14 @@
 
 {% block extra_js %}
 <script>
+    // Tab switcher for About section
+    function switchAboutTab(evt, tabId) {
+        document.querySelectorAll('#about .about-panel').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('#about .about-dash-tab').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
     // Tab switchers for tracks and study plan
     function switchTrackTab(evt, tabId) {
         document.querySelectorAll('#curriculum .tab-panel-item').forEach(el => el.classList.remove('active'));
