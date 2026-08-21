@@ -952,6 +952,141 @@
             width: 100%;
         }
     }
+    
+    /* ==========================================
+       Mobile Viewport Readability Optimizations
+       ========================================== */
+    @media (max-width: 768px) {
+        /* 1. Page Margins & Section Padding */
+        .container {
+            padding-left: 14px !important;
+            padding-right: 14px !important;
+        }
+        
+        .cs-section {
+            padding: 24px 16px !important;
+            margin-bottom: 25px !important;
+            border-radius: 18px !important;
+        }
+        
+        /* 2. Custom Table Horizontal Scroll for Study Plan */
+        .sem-block {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-custom {
+            min-width: 460px !important; /* Forces columns to remain readable and horizontal scrolling to trigger */
+        }
+        
+        /* 3. Specialization Track tabs scrollbar helper */
+        .track-tabs-container {
+            gap: 8px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        .track-tab-btn {
+            padding: 10px 18px !important;
+            font-size: 0.88rem !important;
+            flex-shrink: 0 !important;
+        }
+        
+        /* 4. Faculty grid columns adjust */
+        .faculty-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+        }
+        
+        .faculty-card {
+            padding: 20px 16px !important;
+            border-radius: 16px !important;
+        }
+        
+        .profile-row {
+            gap: 12px !important;
+            margin-bottom: 14px !important;
+        }
+        
+        .avatar-box {
+            width: 72px !important;
+            height: 72px !important;
+        }
+        
+        /* 5. Modals optimization */
+        .modal-card {
+            max-height: 95vh !important;
+            border-radius: 18px !important;
+        }
+        
+        .modal-body {
+            padding: 24px 16px !important;
+        }
+        
+        .modal-head {
+            padding: 16px 20px !important;
+        }
+        
+        /* 6. Section Titles */
+        .block-title h2 {
+            font-size: 1.15rem !important;
+        }
+        
+        /* 7. Contact Info */
+        .contact-map-container {
+            margin-bottom: 20px !important;
+            border-radius: 16px !important;
+        }
+        
+        .contact-social-section {
+            margin-top: 30px !important;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        /* Hero Section Adjustments */
+        .hero-split-container {
+            padding: 28px 16px !important;
+            border-radius: 18px !important;
+        }
+        
+        .hero-main-title {
+            font-size: 2.1rem !important;
+        }
+        
+        .hero-sub-title {
+            font-size: 1.4rem !important;
+            margin-bottom: 15px !important;
+        }
+        
+        .hero-motto {
+            font-size: 0.95rem !important;
+            margin-bottom: 24px !important;
+            padding-left: 10px !important;
+        }
+        
+        .hero-action-buttons {
+            gap: 10px !important;
+            width: 100%;
+        }
+        
+        .hero-btn {
+            width: 100% !important;
+            text-align: center !important;
+            padding: 10px 20px !important;
+            font-size: 0.95rem !important;
+        }
+        
+        .hero-stats-row {
+            margin-top: 20px !important;
+            gap: 8px !important;
+        }
+        
+        .stat-pill {
+            width: 100% !important;
+            padding: 8px 16px !important;
+            font-size: 0.85rem !important;
+        }
+    }
 </style>
 {% endblock %}
 
