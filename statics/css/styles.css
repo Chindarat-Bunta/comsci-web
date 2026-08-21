@@ -13434,3 +13434,416 @@ html {
   line-height: 1.8;
   margin-top: 15px;
 }
+
+/* ==========================================================================
+   Curriculum Specialization Tracks & Bento Cards
+   ========================================================================== */
+.curriculum-hero {
+    background: linear-gradient(135deg, var(--sage-dark), var(--sage-primary));
+    color: #ffffff;
+    border-radius: 28px;
+    padding: 45px 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 12px 35px rgba(27, 67, 50, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.hero-info h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+.hero-info p { color: var(--sage-mint); font-size: 16px; max-width: 600px; }
+.hero-stats { display: flex; gap: 20px; }
+.stat-pill {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 14px 22px;
+    border-radius: 18px;
+    text-align: center;
+}
+.stat-pill .stat-num { font-size: 22px; font-weight: 700; color: #ffffff; display: block; }
+.stat-pill .stat-label { font-size: 12px; color: var(--sage-mint); }
+
+.block-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.block-title h2 { font-size: 24px; font-weight: 700; color: var(--sage-dark); display: flex; align-items: center; gap: 10px; }
+.block-title .badge { background: var(--sage-light); color: var(--sage-dark); padding: 6px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+
+.track-tabs-container { display: flex; gap: 12px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px; }
+.track-tab-btn {
+    background: var(--card-white);
+    border: 2px solid var(--border-soft);
+    color: var(--sage-primary);
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.track-tab-btn:hover { border-color: var(--sage-medium); background: #ffffff; transform: translateY(-2px); }
+.track-tab-btn.active {
+    background: var(--sage-primary);
+    color: #ffffff;
+    border-color: var(--sage-primary);
+    box-shadow: 0 6px 18px rgba(45, 106, 79, 0.2);
+}
+
+.track-content-card {
+    background: var(--card-white);
+    border: 1px solid var(--border-soft);
+    border-radius: 24px;
+    padding: 35px;
+    margin-bottom: 60px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+.track-intro { margin-bottom: 30px; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+.bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.bento-card {
+    background: #fafdfa;
+    border: 1.5px solid var(--border-soft);
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+}
+.bento-card:hover { background: #ffffff; border-color: var(--sage-medium); transform: translateY(-4px); box-shadow: 0 10px 25px rgba(45, 106, 79, 0.08); }
+.bento-card-top { margin-bottom: 16px; }
+.bento-icon-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--sage-light);
+    color: var(--sage-dark);
+    border-radius: 12px;
+    font-size: 18px;
+    margin-bottom: 14px;
+}
+.bento-title { font-size: 16px; font-weight: 700; color: var(--sage-dark); line-height: 1.4; margin-bottom: 8px; }
+.bento-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; }
+.bento-meta { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+.meta-tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; }
+.meta-credit { background: #edf2f7; color: #4a5568; }
+.meta-lab { background: var(--sage-light); color: var(--sage-dark); }
+
+/* ==========================================================================
+   Study Plan Timeline & Custom Tables
+   ========================================================================== */
+.schedule-wrapper {
+    background: var(--card-white);
+    border: 1px solid var(--border-soft);
+    border-radius: 28px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    margin-bottom: 40px;
+}
+.year-stepper { display: flex; gap: 12px; margin-bottom: 30px; justify-content: center; }
+.year-step-btn {
+    background: transparent;
+    border: 2px solid var(--border-soft);
+    color: var(--text-main);
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.year-step-btn.active { background: var(--sage-primary); border-color: var(--sage-primary); color: #ffffff; }
+.semester-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.sem-block { border: 1.5px solid var(--border-soft); border-radius: 18px; overflow: hidden; }
+.sem-block-header {
+    background: #f4fbf7;
+    padding: 14px 20px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--sage-dark);
+    border-bottom: 1px solid var(--border-soft);
+}
+.table-custom { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table-custom th {
+    text-align: left;
+    padding: 10px 16px;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 12px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-soft);
+}
+.table-custom td { padding: 12px 16px; border-bottom: 1px solid #f1f8f3; }
+.table-custom tr:last-child td { border-bottom: none; }
+.code-label { font-weight: 600; color: var(--sage-primary); }
+.type-badge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+.type-major { background: var(--sage-light); color: var(--sage-dark); }
+.type-ge { background: #e0f2fe; color: #0284c7; }
+.type-elective { background: #fef3c7; color: #b45309; }
+.type-project { background: #ffedd5; color: #c2410c; }
+.type-intern { background: #fee2e2; color: #b91c1c; }
+
+.tab-panel-item { display: none; }
+.tab-panel-item.active { display: block; }
+
+@media (max-width: 850px) {
+    .semester-columns { grid-template-columns: 1fr; }
+    .curriculum-hero { padding: 30px 24px; }
+}
+
+/* ==========================================================================
+   Faculty Directory Grid
+   ========================================================================== */
+.faculty-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 26px;
+    margin-top: 20px;
+}
+
+.faculty-card {
+    background-color: var(--card-white);
+    border: 1.5px solid var(--border-soft);
+    border-radius: 22px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 18px rgba(45, 106, 79, 0.03);
+}
+
+.faculty-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--sage-medium);
+    box-shadow: 0 12px 28px rgba(45, 106, 79, 0.08);
+}
+
+.profile-row {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.avatar-box {
+    position: relative;
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    object-fit: cover;
+    border: 2px solid var(--sage-mint);
+    background: #e2e8f0;
+}
+
+.role-pill-float {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    background: var(--sage-primary);
+    color: #ffffff;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.faculty-meta h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--sage-dark);
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+.faculty-meta span {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: block;
+}
+
+.tag-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.tag-item {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.tag-duty { background: #f1f5f9; color: #475569; }
+.tag-head { background: #dcfce7; color: #15803d; font-weight: 600; }
+.tag-exp { background: var(--sage-light); color: var(--sage-dark); font-weight: 600; }
+
+.btn-view-profile {
+    width: 100%;
+    background: #f8fbf9;
+    border: 1.5px solid var(--border-soft);
+    color: var(--sage-dark);
+    font-weight: 600;
+    padding: 10px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-view-profile:hover {
+    background: var(--sage-primary);
+    color: #ffffff;
+    border-color: var(--sage-primary);
+}
+
+/* ==========================================================================
+   Faculty Overlay Popups
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    background: #ffffff;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 850px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: modalFade 0.25s ease-out;
+}
+
+@keyframes modalFade {
+    from { transform: scale(0.96); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-head {
+    background: linear-gradient(135deg, var(--sage-dark), var(--sage-primary));
+    color: #ffffff;
+    padding: 24px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.modal-user-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    border: 2px solid #ffffff;
+    object-fit: cover;
+}
+
+.modal-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 30px;
+}
+
+.modal-col-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sage-dark);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edu-item {
+    position: relative;
+    padding-left: 18px;
+    border-left: 2px solid var(--sage-mint);
+    margin-bottom: 16px;
+}
+
+.edu-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--sage-primary);
+}
+
+.edu-degree { font-size: 13.5px; font-weight: 700; color: #1e293b; }
+.edu-inst { font-size: 12.5px; color: #64748b; }
+.edu-year { font-size: 11px; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 3px; color: #475569; }
+
+.teach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+.teach-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 12px; border-radius: 10px; }
+.teach-code { font-size: 11px; font-weight: 700; color: var(--sage-primary); }
+.teach-name { font-size: 12.5px; font-weight: 600; color: #1e293b; line-height: 1.3; margin: 2px 0; }
+.teach-credit { font-size: 11px; color: #94a3b8; }
+
+.paper-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #334155;
+}
+
+@media (max-width: 768px) {
+    .modal-body { grid-template-columns: 1fr; }
+    .teach-grid { grid-template-columns: 1fr; }
+}

@@ -1,79 +1,1301 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    /* Custom Styling for Redesigned About Us Section */
+    .about-hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+    @media (max-width: 992px) {
+        .about-hero-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .about-philosophy-card {
+        background: linear-gradient(135deg, rgba(216, 243, 220, 0.25), rgba(183, 228, 199, 0.15));
+        border-left: 5px solid var(--sage-primary);
+        border-top: 1px solid var(--border-soft);
+        border-right: 1px solid var(--border-soft);
+        border-bottom: 1px solid var(--border-soft);
+        border-radius: 20px;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        box-shadow: 0 4px 15px rgba(45, 106, 79, 0.01);
+    }
+    .about-philosophy-quote {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--sage-dark);
+        line-height: 1.7;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 2;
+    }
+    .about-philosophy-quote::before {
+        content: "\201C";
+        font-size: 5rem;
+        font-family: 'Outfit', serif;
+        position: absolute;
+        left: -15px;
+        top: -35px;
+        color: var(--sage-soft);
+        opacity: 0.25;
+        z-index: -1;
+    }
+    .about-philosophy-desc {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+    .about-vision-card {
+        background: #ffffff;
+        border: 1px solid var(--border-soft);
+        border-radius: 20px;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(45, 106, 79, 0.01);
+    }
+    .about-vision-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 15px;
+        color: var(--sage-primary);
+    }
+    .about-vision-header i {
+        font-size: 1.5rem;
+        background: var(--sage-light);
+        padding: 10px;
+        border-radius: 12px;
+    }
+    .about-vision-header h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin: 0;
+    }
+    .about-vision-text {
+        font-size: 0.95rem;
+        color: var(--text-main);
+        line-height: 1.7;
+    }
+
+    .about-sub-header {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--sage-dark);
+        margin: 40px 0 20px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+    }
+    .about-sub-header i {
+        color: var(--sage-medium);
+    }
+    .about-sub-desc {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-top: -15px;
+        margin-bottom: 25px;
+    }
+
+    /* Missions Styling */
+    .about-mission-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+    @media (max-width: 1200px) {
+        .about-mission-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 576px) {
+        .about-mission-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .about-mission-card {
+        background: #ffffff;
+        border: 1px solid var(--border-soft);
+        border-radius: 18px;
+        padding: 24px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .about-mission-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(45, 106, 79, 0.08);
+        border-color: var(--sage-soft);
+    }
+    .about-mission-icon-box {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .about-mission-card:nth-child(1) .about-mission-icon-box { background: rgba(45, 106, 79, 0.1); color: var(--sage-primary); }
+    .about-mission-card:nth-child(2) .about-mission-icon-box { background: rgba(32, 201, 151, 0.1); color: #0f8b65; }
+    .about-mission-card:nth-child(3) .about-mission-icon-box { background: rgba(13, 110, 253, 0.1); color: #0d6efd; }
+    .about-mission-card:nth-child(4) .about-mission-icon-box { background: rgba(111, 66, 193, 0.1); color: #6f42c1; }
+    
+    .about-mission-card h4 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--sage-dark);
+        margin: 0;
+    }
+    .about-mission-card p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* Objectives Grid */
+    .about-obj-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+    @media (max-width: 768px) {
+        .about-obj-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .about-obj-card {
+        background: #ffffff;
+        border: 1px solid var(--border-soft);
+        border-radius: 18px;
+        padding: 24px 30px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        display: flex;
+        gap: 20px;
+    }
+    .about-obj-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(45, 106, 79, 0.05);
+        border-color: var(--sage-soft);
+    }
+    .about-obj-badge {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #ffffff;
+        background: var(--sage-primary);
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2);
+    }
+    .about-obj-text {
+        font-size: 0.95rem;
+        color: var(--text-main);
+        line-height: 1.7;
+        z-index: 2;
+    }
+    .about-obj-bg-num {
+        font-size: 5.5rem;
+        font-weight: 800;
+        color: var(--sage-light);
+        opacity: 0.12;
+        position: absolute;
+        right: 15px;
+        bottom: -20px;
+        pointer-events: none;
+        font-family: 'Outfit', sans-serif;
+        line-height: 1;
+        user-select: none;
+    }
+
+    /* PLO Styling */
+    .about-plo-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    .about-plo-item {
+        display: flex;
+        gap: 25px;
+        background: #ffffff;
+        border: 1px solid var(--border-soft);
+        border-radius: 20px;
+        padding: 24px;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    .about-plo-item:hover {
+        border-color: var(--sage-medium);
+        background: #fafdfc;
+        box-shadow: 0 8px 20px rgba(45, 106, 79, 0.04);
+    }
+    @media (max-width: 768px) {
+        .about-plo-item {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+    .about-plo-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 90px;
+        padding: 12px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--sage-dark), var(--sage-primary));
+        color: #ffffff;
+        flex-shrink: 0;
+        box-shadow: 0 4px 15px rgba(27, 67, 50, 0.15);
+    }
+    .about-plo-indicator .about-plo-num {
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .about-plo-indicator .about-plo-domain-pills {
+        margin-top: 6px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+    }
+    .about-domain-pill {
+        font-size: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 2px 6px;
+        border-radius: 999px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .about-plo-desc {
+        font-size: 0.98rem;
+        color: var(--text-main);
+        line-height: 1.7;
+        align-self: center;
+    }
+    
+    .about-plo-legend {
+        background: #f8faf9;
+        border: 1px solid var(--border-soft);
+        border-radius: 18px;
+        padding: 20px;
+        margin-top: 25px;
+    }
+    .about-plo-legend h5 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--sage-dark);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .about-plo-legend h5 i {
+        color: var(--sage-medium);
+    }
+    .about-plo-legend-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    @media (max-width: 768px) {
+        .about-plo-legend-items {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+    .about-plo-legend-item {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        line-height: 1.5;
+    }
+    .about-legend-badge {
+        font-weight: 700;
+        font-size: 11px;
+        background: var(--sage-primary);
+        color: #ffffff;
+        padding: 3px 8px;
+        border-radius: 6px;
+        min-width: 24px;
+        text-align: center;
+    }
+
+    .section-divider {
+        border: none;
+        border-top: 3px dashed rgba(45, 106, 79, 0.25);
+        margin: 50px auto;
+        width: 95%;
+    }
+
+    /* ==========================================
+       Redesigned Split Hero Layout
+       ========================================== */
+    .hero-split-container {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 40px;
+        align-items: center;
+        padding: 60px 45px;
+        background: linear-gradient(135deg, var(--sage-dark) 0%, var(--sage-primary) 100%);
+        border-radius: 24px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 30px rgba(45, 106, 79, 0.15);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    @media (max-width: 991px) {
+        .hero-split-container {
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding: 40px 24px;
+        }
+    }
+    
+    .comsci-pill-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 6px 16px 6px 6px;
+        border-radius: 50px;
+        margin-bottom: 24px;
+        backdrop-filter: blur(10px);
+        width: fit-content;
+    }
+    
+    .comsci-pill-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    .comsci-pill-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .comsci-pill-text {
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        font-family: 'Outfit', sans-serif;
+    }
+    
+    .hero-left-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .hero-main-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0 0 8px 0;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+    }
+    
+    .hero-sub-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0 0 20px 0;
+    }
+    
+    .hero-motto {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: var(--sage-mint);
+        margin-bottom: 30px;
+        opacity: 0.95;
+        line-height: 1.6;
+        border-left: 3px solid var(--sage-light);
+        padding-left: 15px;
+    }
+    
+    .hero-action-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .hero-btn {
+        padding: 12px 28px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+    }
+    
+    .btn-primary-sage {
+        background: #ffffff;
+        color: var(--sage-dark);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary-sage:hover {
+        background: var(--sage-mint);
+        color: var(--sage-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-secondary-sage {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    
+    .btn-secondary-sage:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
+    }
+    
+    .hero-right-carousel {
+        width: 100%;
+    }
+    
+    .hero-carousel {
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        border: 3px solid rgba(255, 255, 255, 0.15);
+    }
+    
+    .hero-carousel .carousel-item img {
+        height: 380px;
+        object-fit: cover;
+        width: 100%;
+    }
+    
+    @media (max-width: 991px) {
+        .hero-carousel .carousel-item img {
+            height: 280px;
+        }
+    }
+    
+    /* ==========================================
+       About Us Section Dashboard Layout
+       ========================================== */
+    .about-dashboard-tabs {
+        display: flex;
+        background: #f1f5f9;
+        padding: 6px;
+        border-radius: 16px;
+        gap: 8px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        border: 1px solid var(--border-soft);
+    }
+    
+    .about-dash-tab {
+        flex: 1 1 200px;
+        padding: 12px 20px;
+        border: none;
+        background: transparent;
+        border-radius: 12px;
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .about-dash-tab i {
+        font-size: 1.1rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .about-dash-tab:hover {
+        color: var(--sage-dark);
+        background: rgba(255, 255, 255, 0.5);
+    }
+    
+    .about-dash-tab:hover i {
+        transform: scale(1.1);
+    }
+    
+    .about-dash-tab.active {
+        background: #ffffff;
+        color: var(--sage-dark);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--border-soft);
+    }
+    
+    .about-panel {
+        display: none;
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.4s ease-in-out;
+    }
+    
+    .about-panel.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .about-panel-intro {
+        font-size: 1.05rem;
+        color: var(--text-muted);
+        margin-bottom: 25px;
+        line-height: 1.6;
+        border-left: 3px solid var(--sage-primary);
+        padding-left: 12px;
+    }
+</style>
+{% endblock %}
+
 
 {% block content %}
 <!-- Section: Home & Menu Grid -->
 <section id="home">
-    <div class="hero-section">
-        <h1>{{ title }}</h1>
-        <p class="hero-subtitle">ยินดีต้อนรับสู่หน้าแรกของระบบจัดการข้อมูลหลักสูตรและสาขาวิชา วิทยาการคอมพิวเตอร์</p>
-        <div class="hero-date">
-            <i class="far fa-calendar-alt me-2"></i>ข้อมูล ณ วันที่: {{ date }}
-        </div>
-    </div>
-
-    <h2 class="section-title">ข้อมูลแนะนำสาขาวิชา</h2>
-
-    <div class="cs-grid">
-        <!-- Card 1: Curriculum -->
-        <div class="cs-card" data-modal-target="curriculum-modal">
-            <div class="cs-card-icon">
-                <i class="fas fa-book"></i>
+    <div class="hero-split-container">
+        <!-- Left content: badge, titles, tagline, CTAs -->
+        <div class="hero-left-content">
+            <div class="comsci-pill-badge">
+                <div class="comsci-pill-logo">
+                    <img src="{% static 'images/logo_major.jpg' %}" alt="CS Logo">
+                </div>
+                <span class="comsci-pill-text">Computer Science</span>
             </div>
-            <h3 class="cs-card-title">หลักสูตรวิทยาศาสตรบัณฑิต</h3>
-            <p class="cs-card-desc">โครงสร้างวิชาเรียนและรายละเอียดหลักสูตรสาขาวิชาวิทยาการคอมพิวเตอร์</p>
-            <span class="cs-card-btn">คลิกดูข้อมูลเพิ่มเติม <i class="fas fa-arrow-right"></i></span>
-        </div>
-
-        <!-- Card 2: Study Plan -->
-        <div class="cs-card" data-modal-target="study-plan-modal">
-            <div class="cs-card-icon">
-                <i class="fas fa-graduation-cap"></i>
+            
+            <h1 class="hero-main-title">สาขาวิทยาการ<br>คอมพิวเตอร์</h1>
+            <h2 class="hero-sub-title">มรภ. ศรีสะเกษ</h2>
+            
+            <p class="hero-motto">"ก้าวสู่อนาคตทางเทคโนโลยี สร้างสรรค์ซอฟต์แวร์นวัตกรรม"</p>
+            
+            <div class="hero-action-buttons">
+                <a href="https://www.oass.sskru.ac.th/std.sskru/s1.html" target="_blank" class="hero-btn btn-primary-sage">สมัครเข้าศึกษาต่อ</a>
+                <a href="#curriculum" class="hero-btn btn-secondary-sage">ข้อมูลหลักสูตร</a>
             </div>
-            <h3 class="cs-card-title">แผนการเรียน 4 ปี</h3>
-            <p class="cs-card-desc">แนวทางการวางแผนวิชาเรียนภาคบังคับและวิชาเลือกในแต่ละภาคการศึกษา</p>
-            <span class="cs-card-btn">คลิกดูข้อมูลเพิ่มเติม <i class="fas fa-arrow-right"></i></span>
         </div>
-
-        <!-- Card 3: Faculty -->
-        <div class="cs-card" data-modal-target="faculty-modal">
-            <div class="cs-card-icon">
-                <i class="fas fa-user-tie"></i>
+        
+        <!-- Right content: Carousel slideshow -->
+        <div class="hero-right-carousel">
+            <div id="carouselExampleInterval" class="carousel slide hero-carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                        <img src="{% static 'images/logo_major.jpg' %}" class="d-block w-100" alt="Logo">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="{% static 'images/group_photo01.jpg' %}" class="d-block w-100" alt="Group Photo 01">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="{% static 'images/group_photo02.jpg' %}" class="d-block w-100" alt="Group Photo 02">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="{% static 'images/group_photo03.jpg' %}" class="d-block w-100" alt="Group Photo 03">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{% static 'images/group_photo04.jpg' %}" class="d-block w-100" alt="Group Photo 04">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                </button>
             </div>
-            <h3 class="cs-card-title">คณาจารย์ผู้ทรงคุณวุฒิ</h3>
-            <p class="cs-card-desc">รายชื่อคณาจารย์ ความเชี่ยวชาญด้านงานวิจัย และช่องทางการติดต่ออาจารย์</p>
-            <span class="cs-card-btn">คลิกดูข้อมูลเพิ่มเติม <i class="fas fa-arrow-right"></i></span>
-        </div>
-
-        <!-- Card 4: About Link (Scrolls to About) -->
-        <div class="cs-card" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
-            <div class="cs-card-icon">
-                <i class="fas fa-info-circle"></i>
-            </div>
-            <h3 class="cs-card-title">เกี่ยวกับสาขาวิชา</h3>
-            <p class="cs-card-desc">ประวัติความเป็นมา วิสัยทัศน์ พันธกิจ และสิ่งอำนวยความสะดวกในการเรียนรู้</p>
-            <span class="cs-card-btn">เลื่อนไปดูข้อมูล <i class="fas fa-arrow-down"></i></span>
-        </div>
-
-        <!-- Card 5: Contact Link (Scrolls to Contact) -->
-        <div class="cs-card" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
-            <div class="cs-card-icon">
-                <i class="fas fa-envelope"></i>
-            </div>
-            <h3 class="cs-card-title">ช่องทางการติดต่อ</h3>
-            <p class="cs-card-desc">ที่ตั้งอาคารสำนักงาน หมายเลขโทรศัพท์ติดต่อ อีเมล และช่องทางโซเชียลมีเดีย</p>
-            <span class="cs-card-btn">เลื่อนไปดูข้อมูล <i class="fas fa-arrow-down"></i></span>
         </div>
     </div>
 </section>
 
+<!-- Section Divider -->
+<hr class="section-divider">
+
 <!-- Section: About Us -->
 <section id="about" class="cs-section">
     <h2 class="cs-section-header">
-        <i class="fas fa-info-circle"></i> เกี่ยวกับสาขาวิชา
+        <i class="fas fa-info-circle"></i> เกี่ยวกับสาขาวิชาและหลักสูตร
     </h2>
     <div class="cs-section-content">
-        <p>ยินดีต้อนรับสู่สาขาวิชาวิทยาการคอมพิวเตอร์ มุ่งเน้นการจัดการเรียนการสอนและวิจัยเพื่อผลิตบัณฑิตที่มีความสามารถในการสร้างสรรค์นวัตกรรมดิจิทัล พัฒนาซอฟต์แวร์ และระบบเทคโนโลยีสารสนเทศที่มีประสิทธิภาพ</p>
-        <p>ขณะนี้ข้อมูลความเป็นมา วิสัยทัศน์ พันธกิจ และข้อมูลห้องปฏิบัติการอย่างเป็นทางการอยู่ระหว่างการตรวจสอบความถูกต้องและจัดเรียงเนื้อหาเพื่อเตรียมอัปเดตลงในส่วนนี้ครับ</p>
+        <p style="margin-bottom: 30px; font-size: 1.05rem; line-height: 1.8;">
+            ยินดีต้อนรับสู่สาขาวิชาวิทยาการคอมพิวเตอร์ มุ่งเน้นการจัดการเรียนการสอนและวิจัยเพื่อผลิตบัณฑิตที่มีความสามารถในการสร้างสรรค์นวัตกรรมดิจิทัล พัฒนาซอฟต์แวร์ และระบบเทคโนโลยีสารสนเทศที่มีประสิทธิภาพ พร้อมการผลักดันการเรียนรู้เชิงทักษะและคุณธรรมจริยธรรมเพื่อรับใช้สังคม
+        </p>
+
+        <!-- Interactive Dashboard Nav Tabs -->
+        <div class="about-dashboard-tabs">
+            <button class="about-dash-tab active" onclick="switchAboutTab(event, 'about-philosophy')">
+                <i class="fas fa-eye"></i> ปรัชญาและวิสัยทัศน์
+            </button>
+            <button class="about-dash-tab" onclick="switchAboutTab(event, 'about-missions')">
+                <i class="fas fa-rocket"></i> พันธกิจหลักสูตร
+            </button>
+            <button class="about-dash-tab" onclick="switchAboutTab(event, 'about-objectives')">
+                <i class="fas fa-bullseye"></i> วัตถุประสงค์
+            </button>
+            <button class="about-dash-tab" onclick="switchAboutTab(event, 'about-plos')">
+                <i class="fas fa-graduation-cap"></i> ผลลัพธ์การเรียนรู้ (PLOs)
+            </button>
+        </div>
+
+        <!-- Dashboard Panels -->
+        <div class="about-dashboard-panels">
+            <!-- Panel 1: Philosophy & Vision -->
+            <div id="about-philosophy" class="about-panel active">
+                <p class="about-panel-intro">แนวคิดหลักและทิศทางการดำเนินงานของหลักสูตรเพื่อการพัฒนาและขับเคลื่อนสังคมท้องถิ่น</p>
+                <div class="about-hero-grid">
+                    <!-- Philosophy Card -->
+                    <div class="about-philosophy-card">
+                        <div class="about-philosophy-quote">
+                            "เชี่ยวชาญด้านวิทยาการคอมพิวเตอร์ มีคุณธรรม นำนวัตกรรมเพื่อพัฒนาท้องถิ่น"
+                        </div>
+                        <div class="about-philosophy-desc">
+                            ปรัชญานี้สะท้อนอัตลักษณ์สำคัญ 3 ด้าน ได้แก่ ความเชี่ยวชาญในวิชาชีพคอมพิวเตอร์, การมีคุณธรรมจริยธรรมวิชาชีพ, และการพัฒนานวัตกรรมนำไปใช้พัฒนาท้องถิ่น ซึ่งเชื่อมโยงโดยตรงกับวิสัยทัศน์พันธกิจเพื่อการร่วมขับเคลื่อนสังคมท้องถิ่น
+                        </div>
+                    </div>
+                    
+                    <!-- Vision Card -->
+                    <div class="about-vision-card">
+                        <div class="about-vision-header">
+                            <i class="fas fa-compass"></i>
+                            <h3>วิสัยทัศน์หลักสูตร</h3>
+                        </div>
+                        <div class="about-vision-text">
+                            มุ่งร่วมเป็นกำลังสำคัญขับเคลื่อนมหาวิทยาลัยให้เป็น "สถาบันอุดมศึกษาแห่งการเรียนรู้ตลอดชีวิต" (Lifelong Learning Institute) โดยการผสานจัดกระบวนการศึกษาและวิจัยเพื่อสร้างสรรค์นวัตกรรม บูรณาการเรียนการสอนเข้ากับการลงมือทำงานจริงเพื่อความเจริญเติบโตอย่างยั่งยืนของท้องถิ่น
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 2: Missions -->
+            <div id="about-missions" class="about-panel">
+                <p class="about-panel-intro">พันธกิจ 4 มิติแห่งการผลักดันการเติบโตและการมีส่วนร่วมกับชุมชนท้องถิ่นอย่างยั่งยืน</p>
+                <div class="about-mission-grid">
+                    <!-- Mission 1 -->
+                    <div class="about-mission-card">
+                        <div class="about-mission-icon-box">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h4>ผลิตบัณฑิตคุณภาพ</h4>
+                        <p>สร้างสรรค์บัณฑิตที่มีทักษะความรู้ด้านวิทยาการคอมพิวเตอร์และเทคโนโลยีขั้นสูง พร้อมตอบโจทย์การปฏิบัติงานจริงในทุกองค์กรยุคใหม่ได้อย่างมืออาชีพ</p>
+                    </div>
+                    <!-- Mission 2 -->
+                    <div class="about-mission-card">
+                        <div class="about-mission-icon-box">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h4>วิจัยและนวัตกรรม</h4>
+                        <p>ส่งเสริมวิชาการ ค้นคว้าริจัย ประยุกต์ และพัฒนานวัตกรรมผลิตภัณฑ์ทางด้านคอมพิวเตอร์ที่สอดคล้องกับแนวทางการแก้ไขปัญหาทางเทคโนโลยีของท้องถิ่น</p>
+                    </div>
+                    <!-- Mission 3 -->
+                    <div class="about-mission-card">
+                        <div class="about-mission-icon-box">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h4>บริการวิชาการท้องถิ่น</h4>
+                        <p>พัฒนาสมรรถนะนักศึกษาในการเรียนรู้ร่วมกับสังคม ก้าวสู่การเป็นนักพัฒนาเทคโนโลยีและวิศวกรสังคมที่มีหัวใจมุ่งรับใช้และช่วยเหลือชุมชน</p>
+                    </div>
+                    <!-- Mission 4 -->
+                    <div class="about-mission-card">
+                        <div class="about-mission-icon-box">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h4>คุณธรรมและกฎหมาย</h4>
+                        <p>หล่อหลอมความซื่อสัตย์สุจริต การเคารพในกฎหมายทรัพย์สินทางปัญญา ลิขสิทธิ์ซอฟต์แวร์ และปฏิบัติตามจรรยาบรรณวิชาชีพนักไอทีอย่างมั่นคง</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 3: Objectives -->
+            <div id="about-objectives" class="about-panel">
+                <p class="about-panel-intro">วัตถุประสงค์เฉพาะของหลักสูตรเพื่อการบ่มเพาะบัณฑิตสู่ผลลัพธ์การเรียนรู้เชิงทักษะ 4 ด้าน</p>
+                <div class="about-obj-grid">
+                    <!-- Obj 1 -->
+                    <div class="about-obj-card">
+                        <div class="about-obj-badge">1</div>
+                        <div class="about-obj-text">
+                            มีความรู้ความเชี่ยวชาญและทักษะเฉพาะด้านในสาขาวิทยาการคอมพิวเตอร์อย่างลึกซึ้ง สามารถออกแบบ พัฒนา และบำรุงรักษาระบบซอฟต์แวร์เชิงประยุกต์ทั้งรูปแบบออนไลน์และออฟไลน์ได้อย่างดีเลิศ
+                        </div>
+                        <div class="about-obj-bg-num">01</div>
+                    </div>
+                    <!-- Obj 2 -->
+                    <div class="about-obj-card">
+                        <div class="about-obj-badge">2</div>
+                        <div class="about-obj-text">
+                            มีทักษะในการประยุกต์ใช้วิธีวิทยาและเทคโนโลยีในการพัฒนางานวิจัย โครงงานนวัตกรรม และแอปพลิเคชันรูปแบบใหม่ที่ช่วยเสริมสร้างศักยภาพและการเพิ่มมูลค่าทางเศรษฐกิจให้แก่ชุมชนท้องถิ่น
+                        </div>
+                        <div class="about-obj-bg-num">02</div>
+                    </div>
+                    <!-- Obj 3 -->
+                    <div class="about-obj-card">
+                        <div class="about-obj-badge">3</div>
+                        <div class="about-obj-text">
+                            มีความเป็นเลิศในการวิเคราะห์และประมวลองค์ความรู้ทางเทคนิคแบบบูรณาการ เพื่อการวางแผนจัดสรรกระบวนการทางคอมพิวเตอร์และสารสนเทศแก้ปัญหายากเชิงซ้อนภายในองค์กรได้อย่างมีขั้นตอน
+                        </div>
+                        <div class="about-obj-bg-num">03</div>
+                    </div>
+                    <!-- Obj 4 -->
+                    <div class="about-obj-card">
+                        <div class="about-obj-badge">4</div>
+                        <div class="about-obj-text">
+                            ยึดมั่นในการประพฤติตนเป็นคนดีมีระเบียบวินัย ปฏิบัติตามหลักจรรยาบรรณวิชาชีพนักวิทย์คอม พร้อมทั้งมีมนุษยสัมพันธ์และทักษะการทำงานร่วมกับผู้อื่นได้อย่างสร้างสรรค์ประณีต
+                        </div>
+                        <div class="about-obj-bg-num">04</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 4: PLOs -->
+            <div id="about-plos" class="about-panel">
+                <p class="about-panel-intro">ผลลัพธ์การเรียนรู้ที่คาดหวังระดับหลักสูตร (Program Learning Outcomes)</p>
+                <div class="about-plo-list">
+                    <!-- PLO1 -->
+                    <div class="about-plo-item">
+                        <div class="about-plo-indicator">
+                            <span class="about-plo-num">PLO 1</span>
+                            <div class="about-plo-domain-pills">
+                                <span class="about-domain-pill">K3</span>
+                            </div>
+                        </div>
+                        <div class="about-plo-desc">
+                            ประยุกต์ใช้ความรู้ด้านวิทยาการคอมพิวเตอร์เพื่อแก้ปัญหาและสนับสนุนการทำงานด้วยระบบคอมพิวเตอร์ได้อย่างถูกต้องตามสถานการณ์ของปัญหา
+                        </div>
+                    </div>
+                    <!-- PLO2 -->
+                    <div class="about-plo-item">
+                        <div class="about-plo-indicator">
+                            <span class="about-plo-num">PLO 2</span>
+                            <div class="about-plo-domain-pills">
+                                <span class="about-domain-pill">K4</span>
+                                <span class="about-domain-pill">S3</span>
+                            </div>
+                        </div>
+                        <div class="about-plo-desc">
+                            พัฒนาระบบด้วยโปรแกรมภาษาต่าง ๆ ในรูปแบบออฟไลน์และออนไลน์ ตามกระบวนการวิเคราะห์และออกแบบระบบได้อย่างถูกต้องตามเกณฑ์มาตรฐานสากล
+                        </div>
+                    </div>
+                    <!-- PLO3 -->
+                    <div class="about-plo-item">
+                        <div class="about-plo-indicator">
+                            <span class="about-plo-num">PLO 3</span>
+                            <div class="about-plo-domain-pills">
+                                <span class="about-domain-pill">K4</span>
+                                <span class="about-domain-pill">S3</span>
+                            </div>
+                        </div>
+                        <div class="about-plo-desc">
+                            พัฒนาแอปพลิเคชันที่ทำงานบนโมบายอุปกรณ์พกพาได้ถูกต้องตรงตามความต้องการและเกิดประสบการณ์ที่ดีกับผู้ใช้งานจริง
+                        </div>
+                    </div>
+                    <!-- PLO4 -->
+                    <div class="about-plo-item">
+                        <div class="about-plo-indicator">
+                            <span class="about-plo-num">PLO 4</span>
+                            <div class="about-plo-domain-pills">
+                                <span class="about-domain-pill">K4</span>
+                                <span class="about-domain-pill">S3</span>
+                            </div>
+                        </div>
+                        <div class="about-plo-desc">
+                            ทดสอบคุณภาพการทำงานของซอฟต์แวร์ตามกระบวนการตรวจสอบแบบ Black Box Testing และ White Box Testing ได้อย่างถูกต้องและได้มาตรฐานเทคนิค
+                        </div>
+                    </div>
+                    <!-- PLO5 -->
+                    <div class="about-plo-item">
+                        <div class="about-plo-indicator">
+                            <span class="about-plo-num">PLO 5</span>
+                            <div class="about-plo-domain-pills">
+                                <span class="about-domain-pill">K4</span>
+                                <span class="about-domain-pill">S3</span>
+                            </div>
+                        </div>
+                        <div class="about-plo-desc">
+                            พัฒนานวัตกรรมด้านเทคโนโลยีคอมพิวเตอร์ที่สอดคล้องกับความต้องการของชุมชนและหน่วยงานท้องถิ่นด้วยกระบวนการวิจัยและพัฒนาอย่างเป็นระบบและสร้างสรรค์
+                        </div>
+                    </div>
+                    <!-- PLO6 -->
+                    <div class="about-plo-item">
+                        <div class="about-plo-indicator">
+                            <span class="about-plo-num">PLO 6</span>
+                            <div class="about-plo-domain-pills">
+                                <span class="about-domain-pill">A3</span>
+                            </div>
+                        </div>
+                        <div class="about-plo-desc">
+                            แสดงออกถึงกระบวนการคิดเชิงระบบ ความเป็นมืออาชีพ มีความอดทน มุ่งมั่น และรับผิดชอบสูงต่ออุปสรรคและปัญหาในการดำเนินงานทางด้านเทคโนโลยี
+                        </div>
+                    </div>
+                    <!-- PLO7 -->
+                    <div class="about-plo-item">
+                        <div class="about-plo-indicator">
+                            <span class="about-plo-num">PLO 7</span>
+                            <div class="about-plo-domain-pills">
+                                <span class="about-domain-pill">A2</span>
+                            </div>
+                        </div>
+                        <div class="about-plo-desc">
+                            แสดงถึงการตระหนักและประยุกต์ใช้หลักจรรยาบรรณวิชาชีพ คุณธรรม และจริยธรรมในการปฏิบัติงานตามข้อกฎหมายและ พ.ร.บ. คอมพิวเตอร์อย่างสุจริต
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PLO Legend -->
+                <div class="about-plo-legend">
+                    <h5><i class="fas fa-info-circle"></i> คำอธิบายตัวระบุผลลัพธ์การเรียนรู้</h5>
+                    <div class="about-plo-legend-items">
+                        <div class="about-plo-legend-item">
+                            <span class="about-legend-badge">K</span>
+                            <span><strong>ความรู้ (Knowledge):</strong> ความเข้าใจ ทฤษฎี หรือข้อเท็จจริงในวิชาชีพ</span>
+                        </div>
+                        <div class="about-plo-legend-item">
+                            <span class="about-legend-badge">S</span>
+                            <span><strong>ทักษะ (Skills):</strong> ทักษะปฏิบัติ ทักษะการพัฒนาทางเทคนิค</span>
+                        </div>
+                        <div class="about-plo-legend-item">
+                            <span class="about-legend-badge">A</span>
+                            <span><strong>ลักษณะบุคคล/จริยธรรม (Attributes):</strong> ทัศนคติ คุณธรรม จรรยาบรรณวิชาชีพ</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 12px; border-top: 1px dashed var(--border-soft); padding-top: 10px;">
+                        * ตัวเลขระบุระดับการเรียนรู้ตามแนวทางมาตรฐานการอุดมศึกษา พ.ศ. 2565
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section: Curriculum Specialization Tracks -->
+<section id="curriculum" class="cs-section">
+    <h2 class="cs-section-header">
+        <i class="fas fa-book"></i> หลักสูตรวิทยาศาสตรบัณฑิต
+    </h2>
+    <div class="cs-section-content">
+        <!-- 2. TRACK TABS -->
+        <div class="block-title">
+            <h2 style="font-size: 20px; font-weight: 700; color: var(--sage-dark);"><i class="fas fa-bolt"></i> หมวดวิชาตามกลุ่มความเชี่ยวชาญ (Specialization Tracks)</h2>
+            <span class="badge">เลือกเรียนตามความสนใจ</span>
+        </div>
+
+        <div class="track-tabs-container">
+            <button class="track-tab-btn active" onclick="switchTrackTab(event, 'view-core')">
+                <span>🖥️</span> วิทยาการคอมพิวเตอร์หลัก (Core CS)
+            </button>
+            <button class="track-tab-btn" onclick="switchTrackTab(event, 'view-se')">
+                <span>&lt;/&gt;</span> เทคโนโลยีซอฟต์แวร์ (Software Tech)
+            </button>
+            <button class="track-tab-btn" onclick="switchTrackTab(event, 'view-ai')">
+                <span>🤖</span> ปัญญาประดิษฐ์และวิทยาการข้อมูล (AI & Data)
+            </button>
+        </div>
+
+        <!-- TRACK CONTENT -->
+        <div class="track-content-card">
+            <!-- Track 1: Core CS -->
+            <div id="view-core" class="tab-panel-item active">
+                <p class="track-intro">มุ่งเน้นการปูพื้นฐานทฤษฎีทางคอมพิวเตอร์ โครงสร้างระบบ การเขียนโปรแกรม และความมั่นคงปลอดภัยไซเบอร์ เพื่อสร้างนักคอมพิวเตอร์ที่มีความรอบรู้และพร้อมแก้ปัญหาซับซ้อน</p>
+                <div class="bento-grid">
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">🌐</div>
+                            <h3 class="bento-title">โครงข่ายคอมพิวเตอร์<br>(Computer Networks)</h3>
+                            <p class="bento-desc">การออกแบบ ติดตั้ง และบำรุงรักษาระบบเครือข่าย ทั้งแบบมีสายและไร้สายเพื่อการสื่อสารในระดับองค์กร</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">🛡️</div>
+                            <h3 class="bento-title">ความปลอดภัยของข้อมูล<br>(Information Security)</h3>
+                            <p class="bento-desc">การป้องกันและควบคุมความปลอดภัยข้อมูล การเข้ารหัสลับ (Cryptography) และการตรวจจับผู้บุกรุก</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">🔍</div>
+                            <h3 class="bento-title">นิติวิทยาศาสตร์คอมพิวเตอร์<br>(Computer Forensics)</h3>
+                            <p class="bento-desc">การตรวจพิสูจน์และวิเคราะห์ข้อมูลที่ถูกโจมตีทางไซเบอร์ การสืบค้นพยานหลักฐานดิจิทัลและกฎหมายไอที</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">🗄️</div>
+                            <h3 class="bento-title">การออกแบบระบบฐานข้อมูล<br>(Database Systems)</h3>
+                            <p class="bento-desc">การออกแบบและจัดการฐานข้อมูลเชิงสัมพันธ์ การใช้ภาษา SQL และการบริหารจัดการคลังข้อมูล</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Track 2: Software Tech -->
+            <div id="view-se" class="tab-panel-item">
+                <p class="track-intro">พัฒนาโปรแกรมประยุกต์ การวิเคราะห์ความต้องการเชิงระบบ สถาปัตยกรรมซอฟต์แวร์ขนาดใหญ่ ตลอดจนการจัดการวงจรชีวิตซอฟต์แวร์ตามมาตรฐานสากล</p>
+                <div class="bento-grid">
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">📦</div>
+                            <h3 class="bento-title">วิศวกรรมซอฟต์แวร์<br>(Software Engineering)</h3>
+                            <p class="bento-desc">กระบวนการพัฒนา การวิเคราะห์ ออกแบบ ทดสอบระบบอย่างมีระเบียบแบบแผนและการบำรุงรักษา</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">💻</div>
+                            <h3 class="bento-title">การพัฒนาเว็บแอปพลิเคชัน<br>(Modern Web App)</h3>
+                            <p class="bento-desc">ฝึกปฏิบัติเขียนโปรแกรม Full-Stack ด้วยเฟรมเวิร์กยอดนิยม เช่น React, Next.js, Node.js และ Django</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">🖼️</div>
+                            <h3 class="bento-title">การประมวลผลภาพดิจิทัล<br>(Image Processing)</h3>
+                            <p class="bento-desc">เทคนิคการปรับปรุงคุณภาพภาพ การตรวจจับวัตถุ และการสกัดคุณลักษณะสำคัญเพื่อนำไปประมวลผลต่อ</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">🗺️</div>
+                            <h3 class="bento-title">สารสนเทศภูมิศาสตร์<br>(GIS Technology)</h3>
+                            <p class="bento-desc">การประยุกต์ใช้เทคโนโลยีสารสนเทศในการจัดการ แสดงผล และวิเคราะห์ข้อมูลเชิงพื้นที่และแผนที่</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Track 3: AI & Data Science -->
+            <div id="view-ai" class="tab-panel-item">
+                <p class="track-intro">สร้างความเชี่ยวชาญด้านระบบวิเคราะห์ข้อมูลขนาดใหญ่ การพยากรณ์เชิงสถิติ และการสร้างโมเดล Machine / Deep Learning ที่ชาญฉลาด</p>
+                <div class="bento-grid">
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">🧠</div>
+                            <h3 class="bento-title">ปัญญาประดิษฐ์<br>(Artificial Intelligence)</h3>
+                            <p class="bento-desc">การสร้างระบบจำลองกระบวนการคิดของมนุษย์ การประมวลผลภาษาธรรมชาติ (NLP) และระบบอัตโนมัติ</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">📊</div>
+                            <h3 class="bento-title">วิทยาการข้อมูล<br>(Data Science)</h3>
+                            <p class="bento-desc">การสกัดและวิเคราะห์เชิงลึกจากฐานข้อมูลขนาดใหญ่ (Big Data) เพื่อตอบโจทย์การตัดสินใจทางธุรกิจ</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">⚙️</div>
+                            <h3 class="bento-title">การเรียนรู้ของเครื่อง<br>(Machine Learning)</h3>
+                            <p class="bento-desc">การฝึกสอนโมเดลการเรียนรู้แบบมีผู้สอนและไม่มีผู้สอน (Supervised/Unsupervised) เพื่อพยากรณ์ข้อมูล</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                    <div class="bento-card">
+                        <div class="bento-card-top">
+                            <div class="bento-icon-tag">⌨️</div>
+                            <h3 class="bento-title">การเขียนโปรแกรมข้อมูล<br>(Python/R for Data)</h3>
+                            <p class="bento-desc">การใช้ภาษา Python และ R ในการทำความสะอาดข้อมูล (Data Cleansing) จัดการโครงสร้าง และพล็อตแสดงผล</p>
+                        </div>
+                        <div class="bento-meta"><span class="meta-tag meta-credit">3 หน่วยกิต</span><span class="meta-tag meta-lab">มีแล็บปฏิบัติการ</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section: Study Plan Timeline -->
+<section id="schedule" class="cs-section">
+    <h2 class="cs-section-header">
+        <i class="fas fa-graduation-cap"></i> แผนการเรียน 4 ปี
+    </h2>
+    <div class="cs-section-content">
+        <div class="year-stepper">
+            <button class="year-step-btn active" onclick="switchYearTab(event, 'sched-1-2')">ปีที่ 1 และ ปีที่ 2</button>
+            <button class="year-step-btn" onclick="switchYearTab(event, 'sched-3-4')">ปีที่ 3 และ ปีที่ 4</button>
+        </div>
+
+        <!-- Y1 & Y2 -->
+        <div id="sched-1-2" class="tab-panel-item active">
+            <div style="margin-bottom: 24px;">
+                <h3 style="color: var(--sage-primary); margin-bottom: 12px; font-size: 17px; font-weight: 700;">📌 แผนการเรียนชั้นปีที่ 1</h3>
+                <div class="semester-columns">
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 1</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS101</td><td>พื้นฐานวิทยาการคอมพิวเตอร์</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS102</td><td>การเขียนโปรแกรมเบื้องต้น (Python)</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">MA111</td><td>คณิตศาสตร์ดิสครีต</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">GE101</td><td>ภาษาอังกฤษเพื่อการสื่อสาร</td><td><span class="type-badge type-ge">ศึกษาทั่วไป</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 2</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS103</td><td>การเขียนโปรแกรมเชิงวัตถุ (Java)</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS104</td><td>โครงสร้างข้อมูลและอัลกอริทึม</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">MA112</td><td>สถิติและคณิตศาสตร์สัญลักษณ์</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">GE102</td><td>ทักษะชีวิตและความเป็นพลเมือง</td><td><span class="type-badge type-ge">ศึกษาทั่วไป</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: var(--sage-primary); margin-bottom: 12px; font-size: 17px; font-weight: 700;">📌 แผนการเรียนชั้นปีที่ 2</h3>
+                <div class="semester-columns">
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 1</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS201</td><td>สถาปัตยกรรมคอมพิวเตอร์และ OS</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS202</td><td>ระบบฐานข้อมูลและการออกแบบ</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS203</td><td>วิศวกรรมซอฟต์แวร์เบื้องต้น</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS204</td><td>โครงข่ายคอมพิวเตอร์และการสื่อสาร</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 2</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS205</td><td>การพัฒนาเว็บแอปพลิเคชัน</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS206</td><td>การวิเคราะห์และออกแบบระบบ</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS207</td><td>ความมั่นคงปลอดภัยสารสนเทศ</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS208</td><td>คณิตศาสตร์และสถิติสำหรับ AI</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Y3 & Y4 -->
+        <div id="sched-3-4" class="tab-panel-item">
+            <div style="margin-bottom: 24px;">
+                <h3 style="color: var(--sage-primary); margin-bottom: 12px; font-size: 17px; font-weight: 700;">📌 แผนการเรียนชั้นปีที่ 3</h3>
+                <div class="semester-columns">
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 1</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS301</td><td>AI เชิงทฤษฎีและการประยุกต์</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS302</td><td>วิทยาการข้อมูลและการวิเคราะห์</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS303</td><td>ภูมิสารสนเทศศาสตร์เบื้องต้น</td><td><span class="type-badge type-major">วิชาเฉพาะ</span></td></tr>
+                                <tr><td class="code-label">CS3XX</td><td>วิชาเลือกเฉพาะทางสาขา (1)</td><td><span class="type-badge type-elective">วิชาเลือก</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 2</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS304</td><td>การเตรียมฝึกประสบการณ์วิชาชีพ</td><td><span class="type-badge type-project">ฝึกทักษะ</span></td></tr>
+                                <tr><td class="code-label">CS305</td><td>โครงงานวิทยาการคอมพิวเตอร์ 1</td><td><span class="type-badge type-project">โครงงาน</span></td></tr>
+                                <tr><td class="code-label">CS3XX</td><td>วิชาเลือกเฉพาะทางสาขา (2)</td><td><span class="type-badge type-elective">วิชาเลือก</span></td></tr>
+                                <tr><td class="code-label">CS3XX</td><td>วิชาเลือกเสรีองค์กรไอที</td><td><span class="type-badge type-ge">เลือกเสรี</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: var(--sage-primary); margin-bottom: 12px; font-size: 17px; font-weight: 700;">📌 แผนการเรียนชั้นปีที่ 4</h3>
+                <div class="semester-columns">
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 1</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td class="code-label">CS401</td>
+                                    <td>สหกิจศึกษาทางวิทยาการคอมพิวเตอร์ / การฝึกงาน</td>
+                                    <td><span class="type-badge type-intern">ปฏิบัติงานจริง</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sem-block">
+                        <div class="sem-block-header">ภาคเรียนที่ 2</div>
+                        <table class="table-custom">
+                            <thead><tr><th>รหัส</th><th>รายวิชา</th><th>หมวดหมู่</th></tr></thead>
+                            <tbody>
+                                <tr><td class="code-label">CS402</td><td>สัมมนาและเทคโนโลยีที่เกิดใหม่</td><td><span class="type-badge type-project">สัมมนา</span></td></tr>
+                                <tr><td class="code-label">CS403</td><td>โครงงานวิทยาการคอมพิวเตอร์ 2</td><td><span class="type-badge type-project">โครงงานจบ</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section: Faculty Directory -->
+<section id="faculty" class="cs-section">
+    <h2 class="cs-section-header">
+        <i class="fas fa-user-tie"></i> คณาจารย์ประจำหลักสูตร
+    </h2>
+    <div class="cs-section-content">
+        <div class="faculty-grid">
+            <!-- 1. ดร.เจษฎา โพนแก้ว -->
+            <div class="faculty-card">
+                <div class="profile-row">
+                    <div class="avatar-box">
+                        <img src="{% static 'images/teacher1.jpg.webp' %}" alt="ดร.เจษฎา โพนแก้ว" class="avatar-img">
+                        <span class="role-pill-float">CS</span>
+                    </div>
+                    <div class="faculty-meta">
+                        <h3>ผศ. ดร.เจษฎา โพนแก้ว</h3>
+                        <span>Jessada Phonkaew</span>
+                    </div>
+                </div>
+                <div class="tag-row">
+                    <span class="tag-item tag-duty">อาจารย์ผู้รับผิดชอบหลักสูตร</span>
+                    <span class="tag-item tag-exp">วิทยาการคอมพิวเตอร์</span>
+                </div>
+                <button class="btn-view-profile" onclick="openModal('modal-1')">📄 ประวัติและผลงานวิชาการ</button>
+            </div>
+
+            <!-- 2. ดร.เจษฎา ชาตรี -->
+            <div class="faculty-card">
+                <div class="profile-row">
+                    <div class="avatar-box">
+                        <img src="{% static 'images/teacher2.jpg.webp' %}" alt="ดร.เจษฎา ชาตรี" class="avatar-img">
+                        <span class="role-pill-float">CSE</span>
+                    </div>
+                    <div class="faculty-meta">
+                        <h3>ดร.เจษฎา ชาตรี</h3>
+                        <span>Jessada Chatree</span>
+                    </div>
+                </div>
+                <div class="tag-row">
+                    <span class="tag-item tag-duty">อาจารย์ผู้รับผิดชอบหลักสูตร</span>
+                    <span class="tag-item tag-exp">Computer Science & Eng.</span>
+                </div>
+                <button class="btn-view-profile" onclick="openModal('modal-2')">📄 ประวัติและผลงานวิชาการ</button>
+            </div>
+
+            <!-- 3. ดร.กริชบดินทร์ ผิวหอม -->
+            <div class="faculty-card">
+                <div class="profile-row">
+                    <div class="avatar-box">
+                        <img src="{% static 'images/teacher3.jpg.webp' %}" alt="ดร.กริชบดินทร์ ผิวหอม" class="avatar-img">
+                        <span class="role-pill-float">CPE</span>
+                    </div>
+                    <div class="faculty-meta">
+                        <h3>ดร.กริชบดินทร์ ผิวหอม</h3>
+                        <span>Krichbodin Phewhom</span>
+                    </div>
+                </div>
+                <div class="tag-row">
+                    <span class="tag-item tag-duty">อาจารย์ผู้รับผิดชอบหลักสูตร</span>
+                    <span class="tag-item tag-exp">วิศวกรรมคอมพิวเตอร์</span>
+                </div>
+                <button class="btn-view-profile" onclick="openModal('modal-3')">📄 ประวัติและผลงานวิชาการ</button>
+            </div>
+
+            <!-- 4. ผศ.พิศาล สุขขี -->
+            <div class="faculty-card">
+                <div class="profile-row">
+                    <div class="avatar-box">
+                        <img src="{% static 'images/teacher4.jpg.webp' %}" alt="ผศ.พิศาล สุขขี" class="avatar-img">
+                        <span class="role-pill-float">CS</span>
+                    </div>
+                    <div class="faculty-meta">
+                        <h3>ผศ. พิศาล สุขขี</h3>
+                        <span>Phisan Sukkee</span>
+                    </div>
+                </div>
+                <div class="tag-row">
+                    <span class="tag-item tag-duty">อาจารย์ผู้รับผิดชอบหลักสูตร</span>
+                    <span class="tag-item tag-exp">วิทยาการคอมพิวเตอร์</span>
+                </div>
+                <button class="btn-view-profile" onclick="openModal('modal-4')">📄 ประวัติและผลงานวิชาการ</button>
+            </div>
+
+            <!-- 5. ดร.กนิษฐา อินธิชิต -->
+            <div class="faculty-card">
+                <div class="profile-row">
+                    <div class="avatar-box">
+                        <img src="{% static 'images/teacher5.jpg.webp' %}" alt="ดร.กนิษฐา อินธิชิต" class="avatar-img">
+                        <span class="role-pill-float">IT</span>
+                    </div>
+                    <div class="faculty-meta">
+                        <h3>ผศ. ดร.กนิษฐา อินธิชิต</h3>
+                        <span>Kanittha Inthichit</span>
+                    </div>
+                </div>
+                <div class="tag-row">
+                    <span class="tag-item tag-head">หัวหน้าสาขาวิชาฯ</span>
+                    <span class="tag-item tag-duty">ผู้รับผิดชอบหลักสูตร</span>
+                    <span class="tag-item tag-exp">เทคโนโลยีสารสนเทศ</span>
+                </div>
+                <button class="btn-view-profile" onclick="openModal('modal-5')">📄 ประวัติและผลงานวิชาการ</button>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -83,63 +1305,303 @@
         <i class="fas fa-envelope"></i> ติดต่อสาขาวิชา
     </h2>
     <div class="cs-section-content">
-        <p>คุณสามารถติดต่อสาขาวิชาวิทยาการคอมพิวเตอร์ได้ ณ สำนักงานประจำสาขา คณะวิทยาศาสตร์และเทคโนโลยี ในเวลาทำการ</p>
-        <p>สำหรับข้อมูลติดต่อโดยละเอียด อาทิ เบอร์โทรศัพท์ภายในสายตรง อีเมล และแผนที่ตั้งอาคาร จะได้รับการอัปเดตอย่างเป็นทางการลงในหน้านี้เร็วๆ นี้หลังจากตรวจสอบความถูกต้องเสร็จสิ้นครับ</p>
+        <p style="margin-bottom: 25px;">คุณสามารถติดต่อสาขาวิชาวิทยาการคอมพิวเตอร์ได้ ณ สำนักงานประจำสาขา คณะศิลปศาสตร์และวิทยาศาสตร์ ในเวลาทำการ</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 20px;">
+            <!-- โทรศัพท์ -->
+            <div style="background: #fafdfa; border: 1.5px solid var(--border-soft); padding: 20px; border-radius: 18px;">
+                <h4 style="color: var(--sage-primary); font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-phone-alt"></i> เบอร์โทรติดต่อสาขาวิชาฯ
+                </h4>
+                <p style="font-size: 14.5px; line-height: 1.6;">
+                    043-009700 ต่อ 50528<br>
+                    <strong>สายด่วน:</strong> <a href="tel:084-298-2456" style="color: var(--sage-primary); text-decoration: none; font-weight: 600;">084-298-2456</a>
+                </p>
+            </div>
+            
+            <!-- อีเมล -->
+            <div style="background: #fafdfa; border: 1.5px solid var(--border-soft); padding: 20px; border-radius: 18px;">
+                <h4 style="color: var(--sage-primary); font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-envelope-open-text"></i> อีเมลติดต่อสาขาวิชาฯ
+                </h4>
+                <p style="font-size: 14.5px; line-height: 1.6;">
+                    <a href="mailto:phisan.s@sskru.ac.th" style="color: var(--sage-primary); text-decoration: none; font-weight: 600;">phisan.s@sskru.ac.th</a><br>
+                    <strong>หัวหน้าสาขาวิชาฯ:</strong> ผศ.ดร.กนิษฐา อินธิชิต (หัวหน้าสาขาวิชาฯ)
+                </p>
+            </div>
+
+            <!-- ที่ตั้ง -->
+            <div style="background: #fafdfa; border: 1.5px solid var(--border-soft); padding: 20px; border-radius: 18px; grid-column: span 1;">
+                <h4 style="color: var(--sage-primary); font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-map-marker-alt"></i> ที่ตั้งอาคารเรียน
+                </h4>
+                <p style="font-size: 14.5px; line-height: 1.6;">
+                    สาขาวิชาฯ ตั้งอยู่ที่ชั้น 5 อาคารสำนักงานคณบดี<br>
+                    คณะศิลปศาสตร์และวิทยาศาสตร์ (LASC) มรภ.ศรีสะเกษ<br>
+                    ถ.ไทยพันทา อ.เมือง จ.ศรีสะเกษ
+                </p>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- ==========================================
-     POPUP MODALS (MODAL OVERLAYS)
+     FACULTY DETAIL MODALS (OVERLAYS)
      ========================================== -->
 
-<!-- Modal 1: Curriculum -->
-<div class="cs-modal-overlay" id="curriculum-modal">
-    <div class="cs-modal">
-        <div class="cs-modal-header">
-            <h3><i class="fas fa-book"></i> หลักสูตรวิทยาศาสตรบัณฑิต</h3>
-            <button class="cs-modal-close-btn"><i class="fas fa-times"></i></button>
+<!-- ================= MODAL 1: ดร.เจษฎา โพนแก้ว ================= -->
+<div id="modal-1" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-head">
+            <div class="modal-user-info">
+                <img src="{% static 'images/teacher1.jpg.webp' %}" alt="ดร.เจษฎา โพนแก้ว">
+                <div>
+                    <h3 style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0;">ผศ. ดร.เจษฎา โพนแก้ว</h3>
+                    <p style="font-size: 13px; opacity: 0.85; margin: 5px 0 0 0; color: #ffffff;">Jessada Phonkaew | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeModal('modal-1')">✕</button>
         </div>
-        <div class="cs-modal-body">
-            <p><strong>รายละเอียดหมวดวิชาและโครงสร้างหลักสูตร</strong></p>
-            <p>ขณะนี้ข้อมูลโครงสร้างหลักสูตรและรายวิชาต่างๆ อยู่ระหว่างการจัดเตรียมข้อมูลอย่างเป็นทางการจากสาขาวิชา ข้อมูลจะพร้อมอัปเดตแสดงในส่วนนี้ในลำดับถัดไปหลังจากได้รับอนุมัติโครงสร้างวิชาเรียบร้อยแล้ว</p>
-        </div>
-        <div class="cs-modal-footer">
-            <button class="btn-close-modal">ปิดหน้าต่าง</button>
+        <div class="modal-body">
+            <div>
+                <h4 class="modal-col-title">🎓 ประวัติการศึกษา</h4>
+                <div class="edu-item">
+                    <div class="edu-degree">ปร.ด. (วิทยาการคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยขอนแก่น</div>
+                    <span class="edu-year">พ.ศ. 2557</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">วท.ม. (วิทยาการคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยขอนแก่น</div>
+                    <span class="edu-year">พ.ศ. 2548</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">วศ.บ. (วิศวกรรมไฟฟ้าอิเล็กทรอนิกส์และคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยอุบลราชธานี</div>
+                    <span class="edu-year">พ.ศ. 2543</span>
+                </div>
+            </div>
+            <div>
+                <h4 class="modal-col-title">📖 รายวิชาที่สอนหลัก</h4>
+                <div class="teach-grid">
+                    <div class="teach-card"><div class="teach-code">4122706</div><div class="teach-name">สถาปัตยกรรมคอมพิวเตอร์</div><div class="teach-credit">3(2-2-5)</div></div>
+                    <div class="teach-card"><div class="teach-code">4123652</div><div class="teach-name">การออกแบบและพัฒนาเกมคอมพิวเตอร์</div><div class="teach-credit">3(2-2-5)</div></div>
+                    <div class="teach-card"><div class="teach-code">4124511</div><div class="teach-name">การประมวลผลภาพ</div><div class="teach-credit">3(2-2-5)</div></div>
+                </div>
+                <h4 class="modal-col-title">📝 ผลงานตีพิมพ์</h4>
+                <div class="paper-box">
+                    <strong>การพัฒนาแอปพลิเคชันการเขียนโปรแกรมด้วยบล็อกภาพผ่านมือถือเพื่อการควบคุมหุ่นยนต์เดินตามเส้นขนาดเล็ก</strong><br>
+                    <span style="font-size:12px; color:#64748b;">ผู้เขียน: เจษฎา โพนแก้ว | ตีพิมพ์: พ.ศ. 2566</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Modal 2: Study Plan -->
-<div class="cs-modal-overlay" id="study-plan-modal">
-    <div class="cs-modal">
-        <div class="cs-modal-header">
-            <h3><i class="fas fa-graduation-cap"></i> แผนการเรียน 4 ปี</h3>
-            <button class="cs-modal-close-btn"><i class="fas fa-times"></i></button>
+<!-- ================= MODAL 2: ดร.เจษฎา ชาตรี ================= -->
+<div id="modal-2" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-head">
+            <div class="modal-user-info">
+                <img src="{% static 'images/teacher2.jpg.webp' %}" alt="ดร.เจษฎา ชาตรี">
+                <div>
+                    <h3 style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0;">ดร.เจษฎา ชาตรี</h3>
+                    <p style="font-size: 13px; opacity: 0.85; margin: 5px 0 0 0; color: #ffffff;">Jessada Chatree | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeModal('modal-2')">✕</button>
         </div>
-        <div class="cs-modal-body">
-            <p><strong>รายละเอียดแผนแนะนำวิชาเรียนรายภาคการศึกษา</strong></p>
-            <p>ขณะนี้รายละเอียดแผนแนะนำวิชาเรียนรายเทอมตลอดหลักสูตร 4 ปี อยู่ระหว่างการปรับปรุงและจัดระเบียบตามเกณฑ์หลักสูตรใหม่ ข้อมูลจะพร้อมเผยแพร่และจัดแสดงในป๊อปอัปนี้เร็วๆ นี้</p>
-        </div>
-        <div class="cs-modal-footer">
-            <button class="btn-close-modal">ปิดหน้าต่าง</button>
+        <div class="modal-body">
+            <div>
+                <h4 class="modal-col-title">🎓 ประวัติการศึกษา</h4>
+                <div class="edu-item">
+                    <div class="edu-degree">Ph.D. (Computer Science and Engineering)</div>
+                    <div class="edu-inst">University of North Texas (USA)</div>
+                    <span class="edu-year">พ.ศ. 2564</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">วท.ม. (การศึกษาวิทยาศาสตร์ (คอมพิวเตอร์))</div>
+                    <div class="edu-inst">สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</div>
+                    <span class="edu-year">พ.ศ. 2547</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">ค.บ. (คอมพิวเตอร์ศึกษา)</div>
+                    <div class="edu-inst">มหาวิทยาลัยราชภัฏสุรินทร์</div>
+                    <span class="edu-year">พ.ศ. 2538</span>
+                </div>
+            </div>
+            <div>
+                <h4 class="modal-col-title">📖 รายวิชาที่สอนหลัก</h4>
+                <div class="teach-grid">
+                    <div class="teach-card"><div class="teach-code">4113501</div><div class="teach-name">การวิจัยดำเนินงาน</div><div class="teach-credit">3(3-0-6)</div></div>
+                    <div class="teach-card"><div class="teach-code">4124507</div><div class="teach-name">การทำเหมืองข้อมูล</div><div class="teach-credit">3(2-2-5)</div></div>
+                </div>
+                <h4 class="modal-col-title">📝 ผลงานตีพิมพ์</h4>
+                <div class="paper-box">
+                    <strong>การพัฒนาแอปพลิเคชัน "น้องลำดวน" ไลน์แชทบอท เพื่อแนะนำสถานที่ท่องเที่ยวในจังหวัดศรีสะเกษ</strong><br>
+                    <span style="font-size:12px; color:#64748b;">ผู้เขียน: พิศาล สุขขี, เจษฎา ชาตรี | ตีพิมพ์: พ.ศ. 2567</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Modal 3: Faculty -->
-<div class="cs-modal-overlay" id="faculty-modal">
-    <div class="cs-modal">
-        <div class="cs-modal-header">
-            <h3><i class="fas fa-user-tie"></i> คณาจารย์ประจำสาขาวิชา</h3>
-            <button class="cs-modal-close-btn"><i class="fas fa-times"></i></button>
+<!-- ================= MODAL 3: ดร.กริชบดินทร์ ผิวหอม ================= -->
+<div id="modal-3" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-head">
+            <div class="modal-user-info">
+                <img src="{% static 'images/teacher3.jpg.webp' %}" alt="ดร.กริชบดินทร์ ผิวหอม">
+                <div>
+                    <h3 style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0;">ดร.กริชบดินทร์ ผิวหอม</h3>
+                    <p style="font-size: 13px; opacity: 0.85; margin: 5px 0 0 0; color: #ffffff;">Krichbodin Phewhom | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeModal('modal-3')">✕</button>
         </div>
-        <div class="cs-modal-body">
-            <p><strong>ข้อมูลรายชื่อคณาจารย์และช่องทางการติดต่อ</strong></p>
-            <p>รายละเอียดรายชื่อคณาจารย์ผู้ทรงคุณวุฒิ ความเชี่ยวชาญ และประวัติต่างๆ กำลังอยู่ระหว่างการตรวจสอบความถูกต้องก่อนนำเสนอ ข้อมูลส่วนนี้จะได้รับการเพิ่มเติมลงในป๊อปอัปนี้ในภายหลัง</p>
-        </div>
-        <div class="cs-modal-footer">
-            <button class="btn-close-modal">ปิดหน้าต่าง</button>
+        <div class="modal-body">
+            <div>
+                <h4 class="modal-col-title">🎓 ประวัติการศึกษา</h4>
+                <div class="edu-item">
+                    <div class="edu-degree">ปร.ด. (วิศวกรรมคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยขอนแก่น</div>
+                    <span class="edu-year">พ.ศ. 2564</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">วท.ม. (วิทยาการคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยขอนแก่น</div>
+                    <span class="edu-year">พ.ศ. 2555</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">วท.บ. (วิทยาการคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยรามคำแหง</div>
+                    <span class="edu-year">พ.ศ. 2544</span>
+                </div>
+            </div>
+            <div>
+                <h4 class="modal-col-title">📖 รายวิชาที่สอนหลัก</h4>
+                <div class="teach-grid">
+                    <div class="teach-card"><div class="teach-code">4121206</div><div class="teach-name">การเขียนโปรแกรมคอมพิวเตอร์</div><div class="teach-credit">3(2-2-5)</div></div>
+                    <div class="teach-card"><div class="teach-code">4121701</div><div class="teach-name">ดิจิตอลเบื้องต้น</div><div class="teach-credit">3(2-2-5)</div></div>
+                </div>
+                <h4 class="modal-col-title">📝 ผลงานตีพิมพ์</h4>
+                <div class="paper-box">
+                    <strong>การเปรียบเทียบประสิทธิภาพอัลกอริทึม Apriori และ FP-Growth ด้วยชุดข้อมูลร้านขายของชำ</strong><br>
+                    <span style="font-size:12px; color:#64748b;">ผู้เขียน: กริชบดินทร์ ผิวหอม | ตีพิมพ์: พ.ศ. 2567</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- ================= MODAL 4: ผศ.พิศาล สุขขี ================= -->
+<div id="modal-4" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-head">
+            <div class="modal-user-info">
+                <img src="{% static 'images/teacher4.jpg.webp' %}" alt="ผศ.พิศาล สุขขี">
+                <div>
+                    <h3 style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0;">ผศ. พิศาล สุขขี</h3>
+                    <p style="font-size: 13px; opacity: 0.85; margin: 5px 0 0 0; color: #ffffff;">Phisan Sukkee | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeModal('modal-4')">✕</button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <h4 class="modal-col-title">🎓 ประวัติการศึกษา</h4>
+                <div class="edu-item">
+                    <div class="edu-degree">วท.ม. (วิทยาการคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยขอนแก่น</div>
+                    <span class="edu-year">พ.ศ. 2552</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">วท.บ. (วิทยาการคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยราชภัฏอุบลราชธานี</div>
+                    <span class="edu-year">พ.ศ. 2547</span>
+                </div>
+            </div>
+            <div>
+                <h4 class="modal-col-title">📖 รายวิชาที่สอนหลัก</h4>
+                <div class="teach-grid">
+                    <div class="teach-card"><div class="teach-code">4122501</div><div class="teach-name">วิศวกรรมซอฟต์แวร์</div><div class="teach-credit">3(2-2-5)</div></div>
+                    <div class="teach-card"><div class="teach-code">4123503</div><div class="teach-name">การพัฒนาเว็บแอปพลิเคชัน</div><div class="teach-credit">3(2-2-5)</div></div>
+                </div>
+                <h4 class="modal-col-title">📝 ผลงานตีพิมพ์</h4>
+                <div class="paper-box">
+                    <strong>การพัฒนาแอปพลิเคชันการสื่อสารและสารสนเทศสำหรับการบริการชุมชน</strong><br>
+                    <span style="font-size:12px; color:#64748b;">ผู้เขียน: พิศาล สุขขี | ตีพิมพ์: พ.ศ. 2566</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL 5: ดร.กนิษฐา อินธิชิต ================= -->
+<div id="modal-5" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-head">
+            <div class="modal-user-info">
+                <img src="{% static 'images/teacher5.jpg.webp' %}" alt="ดร.กนิษฐา อินธิชิต">
+                <div>
+                    <h3 style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0;">ผศ. ดร.กนิษฐา อินธิชิต</h3>
+                    <p style="font-size: 13px; opacity: 0.85; margin: 5px 0 0 0; color: #ffffff;">หัวหน้าสาขาวิชาฯ | อาจารย์ผู้รับผิดชอบหลักสูตร</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeModal('modal-5')">✕</button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <h4 class="modal-col-title">🎓 ประวัติการศึกษา</h4>
+                <div class="edu-item">
+                    <div class="edu-degree">ปร.ด. (การจัดการเทคโนโลยี)</div>
+                    <div class="edu-inst">มหาวิทยาลัยราชภัฏมหาสารคาม</div>
+                    <span class="edu-year">พ.ศ. 2561</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">วท.ม. (เทคโนโลยีสารสนเทศการเกษตรและพัฒนาชนบท)</div>
+                    <div class="edu-inst">มหาวิทยาลัยอุบลราชธานี</div>
+                    <span class="edu-year">พ.ศ. 2550</span>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-degree">วท.บ. (วิทยาการคอมพิวเตอร์)</div>
+                    <div class="edu-inst">มหาวิทยาลัยราชภัฏมหาสารคาม</div>
+                    <span class="edu-year">พ.ศ. 2546</span>
+                </div>
+            </div>
+            <div>
+                <h4 class="modal-col-title">📖 รายวิชาที่สอนหลัก</h4>
+                <div class="teach-grid">
+                    <div class="teach-card"><div class="teach-code">4123202</div><div class="teach-name">ระบบฐานข้อมูล</div><div class="teach-credit">3(2-2-5)</div></div>
+                    <div class="teach-card"><div class="teach-code">4122506</div><div class="teach-name">การวิเคราะห์และออกแบบระบบเชิงวัตถุ</div><div class="teach-credit">3(2-2-5)</div></div>
+                </div>
+                <h4 class="modal-col-title">📝 ผลงานตีพิมพ์</h4>
+                <div class="paper-box">
+                    <strong>การพัฒนาแอปพลิเคชันช่วยตัดสินใจในการเลือกเรียนสาขาวิชาคอมพิวเตอร์บนระบบปฏิบัติการแอนดรอยด์</strong><br>
+                    <span style="font-size:12px; color:#64748b;">ผู้เขียน: กนิษฐา อินธิชิต | ตีพิมพ์: พ.ศ. 2565</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Tab switchers for tracks and study plan
+    function switchTrackTab(evt, tabId) {
+        document.querySelectorAll('#curriculum .tab-panel-item').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('#curriculum .track-tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    function switchYearTab(evt, schedId) {
+        document.getElementById('sched-1-2').classList.remove('active');
+        document.getElementById('sched-3-4').classList.remove('active');
+        document.querySelectorAll('#schedule .year-step-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(schedId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+</script>
 {% endblock %}

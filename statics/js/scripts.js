@@ -15,22 +15,29 @@ window.addEventListener('DOMContentLoaded', event => {
 
     // 1. Dynamic Scroll Spy for One-Page Layout
     function scrollSpy() {
-        // Spying sections should only run on the main landing page
-        if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return;
-
-        // Skip scroll spy if a modal popup is currently open
-        if (document.querySelector('.cs-modal-overlay.open')) return;
+        // Skip scroll spy if any modal overlay is active
+        if (document.querySelector('.modal-overlay.active')) return;
 
         const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = window.innerHeight;
+        
         let currentSectionId = 'home';
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 150; // Offset matching css scroll-padding-top
-            const sectionHeight = section.offsetHeight;
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                currentSectionId = section.getAttribute('id');
+        // Check if scrolled near the bottom of the page (within 60px)
+        if (scrollPosition + clientHeight >= scrollHeight - 60) {
+            if (sections.length > 0) {
+                currentSectionId = sections[sections.length - 1].getAttribute('id');
             }
-        });
+        } else {
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150; // Offset matching css scroll-padding-top
+                const sectionHeight = section.offsetHeight;
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+        }
 
         navItems.forEach(item => {
             item.classList.remove('active');
@@ -44,90 +51,49 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
-    // 2. Hash-based Popup Modal Activator
+    // 2. Hash Change Handler for smooth scrolls
     function handleHash() {
         const hash = window.location.hash;
         if (!hash) return;
 
-        // Popup Modals: #curriculum, #study-plan, #faculty
-        if (hash === '#curriculum' || hash === '#study-plan' || hash === '#faculty') {
-            const modalId = hash.substring(1) + '-modal';
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                // Close other open modals
-                document.querySelectorAll('.cs-modal-overlay').forEach(m => m.classList.remove('open'));
-                
-                modal.classList.add('open');
-                document.body.style.overflow = 'hidden';
-
-                // Set navbar item active manually for popups
-                navItems.forEach(item => {
-                    item.classList.remove('active');
-                    const link = item.querySelector('a');
-                    if (link && link.getAttribute('href') === hash) {
-                        item.classList.add('active');
-                    }
-                });
-            }
-        }
-        // Section Smooth Scrolling (for direct links/redirects)
-        else if (hash === '#about' || hash === '#contact') {
-            const targetSection = document.getElementById(hash.substring(1));
-            if (targetSection) {
-                setTimeout(() => {
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-            }
+        const targetSection = document.getElementById(hash.substring(1));
+        if (targetSection) {
+            setTimeout(() => {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
         }
     }
 
-    // 3. Interactive Card Popups (On Click)
-    const cards = document.querySelectorAll('.cs-card[data-modal-target]');
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const modalId = card.getAttribute('data-modal-target');
-            const targetHash = modalId.replace('-modal', '');
-            
-            // Setting hash will trigger hashchange event, opening the modal automatically
-            window.location.hash = targetHash;
-        });
-    });
+    // 3. Global Modal Functions (Exposed to window)
+    window.openModal = function(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background page scroll
+        }
+    };
 
-    // 4. Close Modal & Reset State
-    const closeBtns = document.querySelectorAll('.cs-modal-close-btn, .btn-close-modal');
-    closeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const modal = btn.closest('.cs-modal-overlay');
-            if (modal) {
-                modal.classList.remove('open');
-                document.body.style.overflow = '';
-                
-                // Clear the hash from URL without page reload
-                history.replaceState(null, null, ' ');
-                // Recalculate correct active navigation item
-                scrollSpy();
-            }
-        });
-    });
+    window.closeModal = function(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore background page scroll
+        }
+    };
 
-    const overlays = document.querySelectorAll('.cs-modal-overlay');
-    overlays.forEach(overlay => {
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.classList.remove('open');
-                document.body.style.overflow = '';
-                
-                history.replaceState(null, null, ' ');
-                scrollSpy();
-            }
-        });
+    // Close modal when clicking on the overlay background
+    window.addEventListener('click', event => {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     });
 
     // Attach Event Listeners
     window.addEventListener('scroll', scrollSpy);
     window.addEventListener('hashchange', handleHash);
     
-    // Initialize state on page load
+    // Initialize spy on page load
     scrollSpy();
     handleHash();
 });

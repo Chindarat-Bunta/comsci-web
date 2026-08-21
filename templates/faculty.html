@@ -1,12 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>คณาจารย์ประจำหลักสูตร - วิทยาการคอมพิวเตอร์</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
         :root {
             --sage-dark: #1b4332;
             --sage-primary: #2d6a4f;
@@ -314,9 +311,9 @@
             .teach-grid { grid-template-columns: 1fr; }
         }
     </style>
-</head>
-<body>
+{% endblock %}
 
+{% block content %}
 <div class="container">
     <div class="section-header">
         <span class="section-tag">Faculty Directory</span>
@@ -658,7 +655,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block extra_js %}
 <script>
     function openModal(id) { 
         document.getElementById(id).classList.add('active'); 
@@ -672,5 +671,4 @@
         }
     }
 </script>
-</body>
-</html>
+{% endblock %}

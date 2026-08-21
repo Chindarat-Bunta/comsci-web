@@ -1,6 +1,5 @@
-
 from django.shortcuts import render, redirect
-from .models import Track, Course
+# from .models import Track, Course
 
 # Create your views here.
 
@@ -18,13 +17,13 @@ def about(request):
     return redirect("/#about")
 
 def curriculum(request):
-    return render(request, "curriculum.html")
+    return redirect("/#curriculum")
 
 
 def faculty(request):
-    return render(request, "faculty.html")
+    return redirect("/#faculty")
 
 
 def contact(request):
-    return render(request, "contact.html")
+    return redirect("/#contact")
 

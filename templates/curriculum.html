@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>โครงสร้างหลักสูตรและแผนการเรียน - วิทยาการคอมพิวเตอร์</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
         :root {
             --sage-dark: #1b4332;
             --sage-primary: #2d6a4f;
@@ -184,9 +182,9 @@
             .curriculum-hero { padding: 30px 24px; }
         }
     </style>
-</head>
-<body>
+{% endblock %}
 
+{% block content %}
 <div class="main-wrapper">
     <!-- 1. HERO OVERVIEW BAR -->
     <header class="curriculum-hero" id="features">
@@ -477,7 +475,9 @@
         </div>
     </section>
 </div>
+{% endblock %}
 
+{% block extra_js %}
 <script>
     function switchTrackTab(evt, tabId) {
         document.querySelectorAll('.tab-panel-item[id^="view-"]').forEach(el => el.classList.remove('active'));
@@ -494,5 +494,4 @@
         evt.currentTarget.classList.add('active');
     }
 </script>
-</body>
-</html>
+{% endblock %}
